@@ -28,6 +28,14 @@ export default function Navbar() {
                     <NavLink to="/pomodoro" className={({ isActive }) => `text-center text-lg ${isActive ? 'text-gray-400 font-semibold' : 'text-gray-600 hover:text-gray-500'}`}>
                         Pomodoro
                     </NavLink>
+
+                    <NavLink to="/timer" className={({ isActive }) => `text-center text-lg ${isActive ? 'text-gray-400 font-semibold' : 'text-gray-600 hover:text-gray-500'}`}>
+                        Timer
+                    </NavLink>
+
+                    <NavLink to="/stopwatch" className={({ isActive }) => `text-center text-lg ${isActive ? 'text-gray-400 font-semibold' : 'text-gray-600 hover:text-gray-500'}`}>
+                        Stopwatch
+                    </NavLink>
                 </div>
             </div>
 
