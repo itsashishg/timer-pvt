@@ -10,6 +10,7 @@ export default function Navbar() {
 
     return <>
         <nav>
+            {/* Hamburger menu */}
             <div className="md:hidden fixed right-5 top-10">
                 <button onClick={toggleMenu} className="text-white focus:outline-none w-5">
                     <svg fill="white" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
@@ -17,13 +18,14 @@ export default function Navbar() {
                     </svg>
                 </button>
             </div>
-            <div className="hidden md:block fixed bottom-10 left-1/2 transform -translate-x-1/2 p-2 w-[300px] bg-white bg-opacity-30 backdrop-blur-md rounded-lg shadow-lg">
+            {/* Main nav */}
+            <div className="hidden md:block main-nav">
                 <div className="flex justify-around gap-2">
-                    <NavLink to="/" className={({ isActive }) => `text-center text-lg ${isActive ? 'text-blue-500 font-bold' : 'text-gray-800 hover:text-blue-500'}`}>
+                    <NavLink to="/" className={({ isActive }) => `text-center text-lg ${isActive ? 'text-gray-400 font-semibold' : 'text-gray-600 hover:text-gray-500'}`}>
                         Clock
                     </NavLink>
 
-                    <NavLink to="/pomodoro" className={({ isActive }) => `text-center text-lg ${isActive ? 'text-blue-500 font-bold' : 'text-gray-800 hover:text-blue-500'}`}>
+                    <NavLink to="/pomodoro" className={({ isActive }) => `text-center text-lg ${isActive ? 'text-gray-400 font-semibold' : 'text-gray-600 hover:text-gray-500'}`}>
                         Pomodoro
                     </NavLink>
                 </div>

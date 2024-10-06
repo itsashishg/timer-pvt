@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 
 const Pomodoro = () => {
-    const [time, setTime] = useState(1500); // Default to 25 minutes
+    const [time, setTime] = useState(1500);
+    const [mode, setMode] = useState('focus');
     const [isActive, setIsActive] = useState(false);
     const [isPaused, setIsPaused] = useState(false);
 
@@ -16,6 +17,25 @@ const Pomodoro = () => {
         }
         return () => clearInterval(interval);
     }, [isActive, isPaused, time]);
+
+    useEffect(() => {
+        // Change the document title based on the timer state
+        if (isActive) {
+            let currentString = formatTime(time);
+            if (mode === 'focus') {
+                currentString += ' : Focus';
+            }
+            else if (mode === 'short') {
+                currentString += ' : Short Break';
+            }
+            else {
+                currentString += ' : Long Break';
+            }
+            document.title = currentString;
+        } else {
+            document.title = 'Timely: Pomodoro';
+        }
+    }, [isActive, isPaused, time, mode]);
 
     const formatTime = (time) => {
         const hours = Math.floor(time / 3600);
@@ -39,23 +59,30 @@ const Pomodoro = () => {
         setTime((prevTime) => prevTime + minutes * 60);
     };
 
+    function handleChangeMode(mode, time) {
+        setMode(mode);
+        setIsActive(false);
+        setIsPaused(false);
+        setTime(time);
+    }
+
     return (
         <div className="flex flex-col items-center justify-center h-screen w-2/5 m-auto">
             <div className="flex space-x-4 mb-4">
-                <button onClick={() => setTime(1500)} class="flex items-center justify-center rounded-md bg-zinc-800 px-3 py-3 text-zinc-400 transition-colors hover:bg-zinc-700 hover:text-zinc-200 sm:py-1.5">
+                <button onClick={() => handleChangeMode('focus', 1500)} class="flex items-center justify-center rounded-md bg-zinc-800 px-3 py-3 text-zinc-400 transition-colors hover:bg-zinc-700 hover:text-zinc-200 sm:py-1.5">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-crosshair block h-4 w-4 sm:hidden">
                         <circle cx="12" cy="12" r="10"></circle><line x1="22" x2="18" y1="12" y2="12"></line><line x1="6" x2="2" y1="12" y2="12"></line><line x1="12" x2="12" y1="6" y2="2"></line><line x1="12" x2="12" y1="22" y2="18"></line>
                     </svg>
                     <span class="hidden sm:block">Focus</span>
                 </button>
-                <button onClick={() => setTime(300)} class="flex items-center justify-center rounded-md px-3 py-3 transition-colors sm:py-1.5 bg-transparent text-zinc-700 hover:bg-zinc-800 hover:text-zinc-400">
+                <button onClick={() => handleChangeMode('short', 300)} class="flex items-center justify-center rounded-md px-3 py-3 transition-colors sm:py-1.5 bg-transparent text-zinc-700 hover:bg-zinc-800 hover:text-zinc-400">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-coffee block h-4 w-4 sm:hidden">
                         <path d="M10 2v2"></path><path d="M14 2v2"></path><path d="M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1"></path>
                         <path d="M6 2v2"></path>
                     </svg>
                     <span class="hidden sm:block">Short Break</span>
                 </button>
-                <button onClick={() => setTime(900)} class="flex items-center justify-center rounded-md px-3 py-3 transition-colors sm:py-1.5 bg-transparent text-zinc-700 hover:bg-zinc-800 hover:text-zinc-400">
+                <button onClick={() => handleChangeMode('long', 900)} class="flex items-center justify-center rounded-md px-3 py-3 transition-colors sm:py-1.5 bg-transparent text-zinc-700 hover:bg-zinc-800 hover:text-zinc-400">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-footprints block h-4 w-4 sm:hidden">
                         <path d="M4 16v-2.38C4 11.5 2.97 10.5 3 8c.03-2.72 1.49-6 4.5-6C9.37 2 10 3.8 10 5.5c0 3.11-2 5.66-2 8.68V16a2 2 0 1 1-4 0Z"></path>
                         <path d="M20 20v-2.38c0-2.12 1.03-3.12 1-5.62-.03-2.72-1.49-6-4.5-6C14.63 6 14 7.8 14 9.5c0 3.11 2 5.66 2 8.68V20a2 2 0 1 0 4 0Z"></path>

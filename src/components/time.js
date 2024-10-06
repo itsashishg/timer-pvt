@@ -9,7 +9,7 @@ const Time = () => {
         const timerId = setInterval(() => {
             setCurrentTime(new Date());
         }, 1000);
-
+        document.title = 'Timely';
         return () => clearInterval(timerId);
     }, []);
 

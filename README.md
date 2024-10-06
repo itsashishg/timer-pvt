@@ -3,14 +3,9 @@
 Aivanyi
 
 ## Goals
-- Show Time
+- ~~Show Time~~
 - Timer/Stopwatch
-- Pomodoro setting
+- ~~Pomodoro setting~~
 - Separate Timer window
 - ToDo App
 - Routines functionality for tasks
-
-
-
-exuke@fexpost.com
-time.fyi

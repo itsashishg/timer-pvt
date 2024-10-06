@@ -14,3 +14,14 @@ body {
     width: 100%;
     background-color: #1b1c1c;
 }
+
+.main-nav {
+    padding: 0.5rem;
+    width: 300px;
+    position: fixed;
+    bottom: 2.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #4f4f4f4a;
+    border-radius: 15px;
+}
