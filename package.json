@@ -2,6 +2,7 @@
   "name": "timely",
   "version": "1.0.0",
   "private": true,
+  "homepage": "https://itsashishg.github.io/timely/",
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
