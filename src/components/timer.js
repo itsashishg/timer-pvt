@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
 const Timer = () => {
-    const [time, setTime] = useState({ hours: 0, minutes: 0, seconds: 0 });
     const [isActive, setIsActive] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
     const [totalSeconds, setTotalSeconds] = useState(0);
@@ -18,27 +17,23 @@ const Timer = () => {
         return () => clearInterval(interval);
     }, [isActive, totalSeconds]);
 
-    function isNumber(value) {
-        // eslint-disable-next-line no-mixed-operators
-        return typeof value === 'number' && isFinite(value) || typeof value === 'string' && value.trim() !== '' && !isNaN(value);
-    }
+    useEffect(() => {
+        document.title = 'Timely: Timer';
+    }, []);
 
-    const handleInputChange = (field, value) => {
-        if (!isNumber(value)) {
-            return null;
-        }
-        const numValue = Math.max(0, Math.min(99, Number(value)));
-        setTime((prev) => ({ ...prev, [field]: numValue }));
-        if (field === 'hours') {
-            setTotalSeconds(numValue * 3600 + time.minutes * 60 + time.seconds);
-        } else if (field === 'minutes') {
-            setTotalSeconds(time.hours * 3600 + numValue * 60 + time.seconds);
-        } else if (field === 'seconds') {
-            setTotalSeconds(time.hours * 3600 + time.minutes * 60 + numValue);
-        }
+    const handleInputChange = () => {
+        const hours = parseInt(document.getElementById('hours').value) || 0;
+        const minutes = parseInt(document.getElementById('minutes').value) || 0;
+        const seconds = parseInt(document.getElementById('seconds').value) || 0;
+
+        const total = hours * 3600 + minutes * 60 + seconds;
+        setTotalSeconds(total);
     };
 
     const handleStart = () => {
+        if (totalSeconds === 0) {
+            setTotalSeconds(1500);
+        }
         setIsActive(true);
         setIsEditing(false);
     };
@@ -50,7 +45,6 @@ const Timer = () => {
     const handleStop = () => {
         setIsActive(false);
         setTotalSeconds(0);
-        setTime({ hours: 0, minutes: 0, seconds: 0 });
         setIsEditing(false);
     };
 
@@ -59,55 +53,56 @@ const Timer = () => {
     };
 
     const formatTime = (sec) => {
-        const hours = Math.floor(sec / 3600);
-        const minutes = Math.floor((sec % 3600) / 60);
-        const seconds = sec % 60;
+        const hours = (Math.floor(sec / 3600)).toString().padStart(2, '0');
+        const minutes = (Math.floor((sec % 3600) / 60)).toString().padStart(2, '0');
+        const seconds = (sec % 60).toString().padStart(2, '0');
         return { hours, minutes, seconds };
     };
 
-    const displayedTime = isActive ? formatTime(totalSeconds) : time;
+    const displayedTime = formatTime(totalSeconds);
 
     return (
         <div className="flex flex-col items-center justify-center h-screen">
+            {!isActive ? (
+                <div className="text-base text-gray-500">Set timer</div>
+            ) : (
+                <div className="text-sm text-gray-500 sm:text-base">Time Left</div>
+            )}
             <div className="flex space-x-2 mb-4 text-7xl text-white">
-                <input value={displayedTime.hours} onClick={() => setIsEditing(true)}
-                    onChange={(e) => handleInputChange('hours', e.target.value)} className={`border-0 focus:outline-none focus:ring-0 bg-inherit text-center`}
-                    readOnly={!isEditing} max="99" min="0" />
+                <div className="flex max-w-[80px] flex-col items-center sm:max-w-[100px]">
+                    <div className="relative">
+                        <input type="text" value={displayedTime.hours} onChange={handleInputChange}
+                            readOnly={!isEditing} onClick={() => setIsEditing(true)} id="hours"
+                            className="border-0 bg-inherit text-center focus:outline-none focus:ring-0 w-full pb-7 font-bold sm:pb-9" placeholder="00" />
+                        <span className="pointer-events-none absolute bottom-0 left-1/2 -translate-x-1/2 text-base text-zinc-500 sm:text-2xl">hour</span>
+                    </div>
+                </div>
                 <span className="h-full mt-2">:</span>
-                <input value={displayedTime.minutes}
-                    onChange={(e) => handleInputChange('minutes', e.target.value)} className={`border-0 focus:outline-none focus:ring-0 bg-inherit p-2 text-center`}
-                    readOnly={!isEditing} max="59" min="0" />
+                <div className="flex max-w-[80px] flex-col items-center sm:max-w-[100px]">
+                    <div className="relative">
+                        <input type="text" value={displayedTime.minutes} onChange={handleInputChange}
+                            readOnly={!isEditing} onClick={() => setIsEditing(true)} id="minutes"
+                            className="border-0 bg-inherit text-center focus:outline-none focus:ring-0 w-full pb-7 font-bold sm:pb-9" placeholder="00" />
+                        <span className="pointer-events-none absolute bottom-0 left-1/2 -translate-x-1/2 text-base text-zinc-500 sm:text-2xl">hour</span>
+                    </div>
+                </div>
                 <span className="h-full mt-2">:</span>
-                <input value={displayedTime.seconds} onClick={() => setIsEditing(true)}
-                    onChange={(e) => handleInputChange('seconds', e.target.value)} className={`border-0 focus:outline-none focus:ring-0 bg-inherit p-2 text-center`}
-                    readOnly={!isEditing} max="59" min="0" />
+                <div className="flex max-w-[80px] flex-col items-center sm:max-w-[100px]">
+                    <div className="relative">
+                        <input type="text" value={displayedTime.seconds} onChange={handleInputChange}
+                            readOnly={!isEditing} onClick={() => setIsEditing(true)} id="seconds"
+                            className="border-0 bg-inherit text-center focus:outline-none focus:ring-0 w-full pb-7 font-bold sm:pb-9" placeholder="00" />
+                        <span className="pointer-events-none absolute bottom-0 left-1/2 -translate-x-1/2 text-base text-zinc-500 sm:text-2xl">hour</span>
+                    </div>
+                </div>
             </div>
             <div className="flex space-x-4">
                 {!isActive && (
-                    <button onClick={handleStart} className="flex items-center justify-center bg-zinc-800 px-3 text-zinc-400 transition-colors hover:bg-zinc-700 hover:text-zinc-200 sm:py-1.5 rounded-lg py-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="block h-4 w-4 sm:hidden">
+                    <button onClick={handleStart} className="flex h-[32px] items-center gap-2 rounded-md bg-zinc-800 px-3 py-1.5 text-sm text-zinc-400 outline-none transition-colors hover:bg-zinc-700 hover:text-zinc-200 md:h-[40px] md:px-5 md:py-1.5 md:text-base lg:h-[44px] lg:rounded-lg lg:text-base">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                             <polygon points="6 3 20 12 6 21 6 3"></polygon>
-                        </svg>
-                        <span className="hidden sm:block">Start</span>
+                        </svg> Start Timer
                     </button>
-                )}
-                {isActive && (
-                    <>
-                        <button onClick={handlePause} className="flex items-center justify-center bg-zinc-800 px-3 text-zinc-400 transition-colors hover:bg-zinc-700 hover:text-zinc-200 sm:py-1.5 rounded-lg py-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="block h-4 w-4 sm:hidden">
-                                <rect x="14" y="4" width="4" height="16" rx="1"></rect>
-                                <rect x="6" y="4" width="4" height="16" rx="1"></rect>
-                            </svg>
-                            <span className="hidden sm:block">Pause</span>
-                        </button>
-                        <button onClick={handleStop} className="flex h-[32px] items-center gap-2 rounded-md bg-zinc-800 px-3 py-1.5 text-sm text-zinc-400 transition-colors hover:bg-zinc-700 hover:text-zinc-200 md:h-[40px] md:px-4 md:py-2 md:text-base lg:h-[44px] lg:rounded-lg lg:text-lg">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-[14px] w-[14px] md:h-[18px] md:w-[18px]">
-                                <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
-                                <path d="M3 3v5h5"></path>
-                            </svg>
-                            <span className="hidden sm:block">Reset</span>
-                        </button>
-                    </>
                 )}
             </div>
             {isActive && (
@@ -126,10 +121,21 @@ const Timer = () => {
                     </button>
                 </div>
             )}
-            {!isActive && !isEditing && (
-                <button onClick={() => setIsEditing(true)} className="mt-4 bg-gray-500 text-white px-4 py-2 rounded">
-                    Edit Time
-                </button>
+            {isActive && (
+                <div className="mt-2 flex items-center gap-3">
+                    <button onClick={handlePause} className="flex h-[32px] items-center gap-1 rounded-md bg-zinc-800 px-3 py-1.5 text-sm text-zinc-400 transition-colors hover:bg-zinc-700 hover:text-zinc-200 sm:gap-2 md:h-[40px] md:pl-3 md:pr-4 md:py-2 md:text-base lg:h-[44px] lg:rounded-lg lg:text-base">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-[12px] w-[12px] sm:h-[17px] sm:w-[17px]">
+                            <rect x="14" y="4" width="4" height="16" rx="1"></rect><rect x="6" y="4" width="4" height="16" rx="1"></rect>
+                        </svg>Pause
+                    </button>
+                    <button onClick={handleStop} className="flex h-[32px] items-center gap-2 rounded-md bg-zinc-800 px-3 py-1.5 text-sm text-zinc-400 transition-colors hover:bg-zinc-700 hover:text-zinc-200 md:h-[40px] md:px-4 md:py-2 md:text-base lg:h-[44px] lg:rounded-lg lg:text-lg">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-[14px] w-[14px] md:h-[18px] md:w-[18px]">
+                            <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+                            <path d="M3 3v5h5"></path>
+                        </svg>
+                        <span className="hidden sm:block">Reset</span>
+                    </button>
+                </div>
             )}
         </div>
     );
