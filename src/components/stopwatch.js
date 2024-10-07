@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 const Stopwatch = () => {
     const [time, setTime] = useState(0);
@@ -36,10 +36,15 @@ const Stopwatch = () => {
     };
 
     const handleLap = () => {
-        setLaps([time, ...laps]);
+        if (laps.length > 0) {
+            setLaps([{ lapTime: time - laps[0].elapsedTime, elapsedTime: time }, ...laps]);
+        }
+        else {
+            setLaps([{ lapTime: time, elapsedTime: time }, ...laps]);
+        }
     };
 
-    const renderFormattedTime = (time) => {
+    const renderFormattedTime = (time, textClass, subTextClass) => {
         const hours = Math.floor((time / (1000 * 60 * 60)) % 24);
         const minutes = Math.floor((time / (1000 * 60)) % 60);
         const seconds = Math.floor((time / 1000) % 60);
@@ -48,24 +53,24 @@ const Stopwatch = () => {
         return (
             <div className="flex items-baseline">
                 {hours > 0 && (
-                    <span className="text-6xl font-bold">{hours}</span>
+                    <span className={`${textClass} font-bold`}>{hours}</span>
                 )}
-                {hours > 0 && <span className="ml-1 text-lg text-zinc-500 md:text-2xl mr-5">h</span>}
+                {hours > 0 && <span className={`${subTextClass} ml-1 text-zinc-500 mr-5`}>h</span>}
                 {minutes > 0 && (
-                    <span className="text-6xl font-bold">{minutes}</span>
+                    <span className={`${textClass} font-bold`}>{minutes}</span>
                 )}
-                {(minutes > 0 || hours > 0) && <span className="ml-1 text-lg text-zinc-500 md:text-2xl mr-5">m</span>}
-                <span className="text-6xl font-bold">{seconds}</span>
-                <span className="ml-1 text-lg text-zinc-500 md:text-2xl mr-5">s</span>
-                <span className="text-6xl font-bold">{milliseconds.toString().padStart(3, '0')}</span>
-                <span className="ml-1 text-lg text-zinc-500 md:text-2xl">ms</span>
+                {(minutes > 0 || hours > 0) && <span className={`${subTextClass} ml-1 text-zinc-500 mr-5`}>m</span>}
+                <span className={`${textClass} font-bold`}>{seconds}</span>
+                <span className={`${subTextClass} ml-1 text-zinc-500 mr-5`}>s</span>
+                <span className={`${textClass} font-bold`}>{milliseconds.toString().padStart(3, '0')}</span>
+                <span className={`${subTextClass} ml-1 text-zinc-500 mr-5`}>ms</span>
             </div>
         );
     };
 
     return (
         <div className="flex flex-col items-center justify-center h-screen">
-            <h1 className="mb-3 flex flex-row gap-2 text-3xl font-medium tabular-nums md:mb-5 md:text-5xl lg:mb-7 lg:gap-5 lg:text-7xl text-white">{renderFormattedTime(time)}</h1>
+            <h1 className="mb-3 flex flex-row gap-2 text-3xl font-medium tabular-nums md:mb-5 md:text-5xl lg:mb-7 lg:gap-5 lg:text-7xl text-white">{renderFormattedTime(time, 'text-6xl', 'text-lg')}</h1>
             <div className="mb-4">
                 {!isRunning ? (
                     <button onClick={handleStart} className="flex h-[32px] items-center gap-2 rounded-md bg-zinc-800 px-3 py-1.5 text-sm text-zinc-400 transition-colors hover:bg-zinc-700 hover:text-zinc-200 md:h-[40px] md:px-4 md:py-2 md:text-base lg:h-[44px] lg:rounded-lg lg:text-lg">
@@ -101,13 +106,16 @@ const Stopwatch = () => {
                 )}
             </div>
             {laps.length > 0 && (
-                <div className="w-full max-w-md overflow-y-scroll h-32 border border-gray-300 rounded">
-                    <h2 className="text-xl font-semibold mb-2">Laps</h2>
-                    <ul className="list-disc pl-5">
-                        {laps.map((lap, index) => (
-                            <li key={index}>{renderFormattedTime(lap)}</li>
-                        ))}
-                    </ul>
+                <div class="overflow-auto max-h-36 relative w-2/5 mx-auto rounded-xl flex flex-col">
+                    {laps.map((lap, index) => (
+                        <div class={`flex items-center justify-between px-3 py-2 ${index % 2 === 0 ? 'bg-neutral-700' : 'bg-neutral-800'}`}>
+                            <span className="text-white font-semibold">Lap {laps.length - index}</span>
+                            <div class="flex flex-col">
+                                <strong class="text-slate-900 font-medium dark:text-slate-200 mb-1">{renderFormattedTime(lap.lapTime, 'text-sm', 'text-xs')}</strong>
+                                <span class="text-slate-500 font-medium dark:text-slate-400">{renderFormattedTime(lap.elapsedTime, 'text-sm', 'text-xs')}</span>
+                            </div>
+                        </div>
+                    ))}
                 </div>
             )}
         </div>
