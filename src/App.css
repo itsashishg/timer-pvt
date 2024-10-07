@@ -25,3 +25,7 @@ body {
     background-color: #4f4f4f4a;
     border-radius: 15px;
 }
+
+input {
+    width: 125px;
+}

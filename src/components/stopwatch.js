@@ -65,7 +65,7 @@ const Stopwatch = () => {
 
     return (
         <div className="flex flex-col items-center justify-center h-screen">
-            <h1 className="mb-3 flex flex-row gap-2 font-mono text-3xl font-medium tabular-nums md:mb-5 md:text-5xl lg:mb-7 lg:gap-5 lg:text-7xl text-white">{renderFormattedTime(time)}</h1>
+            <h1 className="mb-3 flex flex-row gap-2 text-3xl font-medium tabular-nums md:mb-5 md:text-5xl lg:mb-7 lg:gap-5 lg:text-7xl text-white">{renderFormattedTime(time)}</h1>
             <div className="mb-4">
                 {!isRunning ? (
                     <button onClick={handleStart} className="flex h-[32px] items-center gap-2 rounded-md bg-zinc-800 px-3 py-1.5 text-sm text-zinc-400 transition-colors hover:bg-zinc-700 hover:text-zinc-200 md:h-[40px] md:px-4 md:py-2 md:text-base lg:h-[44px] lg:rounded-lg lg:text-lg">
