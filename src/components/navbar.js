@@ -36,6 +36,10 @@ export default function Navbar() {
                     <NavLink to="/stopwatch" className={({ isActive }) => `text-center text-lg ${isActive ? 'text-gray-400 font-semibold' : 'text-gray-600 hover:text-gray-500'}`}>
                         Stopwatch
                     </NavLink>
+
+                    <NavLink to="/planner" className={({ isActive }) => `text-center text-lg ${isActive ? 'text-gray-400 font-semibold' : 'text-gray-600 hover:text-gray-500'}`}>
+                        Planner
+                    </NavLink>
                 </div>
             </div>
 
