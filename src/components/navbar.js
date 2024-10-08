@@ -11,7 +11,7 @@ export default function Navbar() {
     return <>
         <nav>
             {/* Hamburger menu */}
-            <div className="md:hidden fixed right-5 top-10">
+            <div className="md:hidden fixed right-5 top-6">
                 <button onClick={toggleMenu} className="text-white focus:outline-none w-5">
                     <svg fill="white" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
                         <path fill="currentColor" d="M1 2.75A.75.75 0 0 1 1.75 2h12.5a.75.75 0 0 1 0 1.5H1.75A.75.75 0 0 1 1 2.75Zm0 10a.75.75 0 0 1 .75-.75h12.5a.75.75 0 0 1 0 1.5H1.75a.75.75 0 0 1-.75-.75ZM1.75 7a.75.75 0 0 0 0 1.5h12.5a.75.75 0 0 0 0-1.5H1.75Z"></path>

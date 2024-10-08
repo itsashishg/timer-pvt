@@ -31,7 +31,7 @@ const Time = () => {
     return (
         <div className="h-full w-full flex items-center justify-center flex-col">
             <p className="mb-1 flex items-center justify-center text-base text-gray-400 lg:mb-2 lg:text-xl">Timezone: {userTimeZone}</p>
-            <p className="my-2.5 text-5xl font-semibold tabular-nums md:text-7xl lg:text-9xl text-white ml-[40px]">
+            <p className="my-2.5 text-8xl font-semibold tabular-nums md:text-7xl lg:text-9xl text-white ml-[40px]">
                 {hours}
                 <span className="inline-block animate-blink align-text-top">:</span>
                 {minutes}

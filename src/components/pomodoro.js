@@ -72,7 +72,7 @@ const Pomodoro = () => {
     }
 
     return (
-        <div className="flex flex-col items-center justify-center h-screen w-2/5 m-auto">
+        <div className="flex flex-col items-center justify-center h-screen w-full sm:w-2/5 m-auto">
             <div className="flex space-x-4 mb-4">
                 <button onClick={() => handleChangeMode('focus', 1500)} className="flex items-center justify-center rounded-md bg-zinc-800 px-3 py-3 text-zinc-400 transition-colors hover:bg-zinc-700 hover:text-zinc-200 sm:py-1.5">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="block h-4 w-4 sm:hidden">
@@ -97,7 +97,7 @@ const Pomodoro = () => {
                     <span className="hidden sm:block">Long Break</span>
                 </button>
             </div>
-            <div className="relative my-8 flex flex-col gap-2 text-6xl font-bold text-gray-100 sm:my-8 sm:text-8xl md:text-8xl lg:text-8xl xl:text-9xl">{formatTime(time)}</div>
+            <div className="relative my-8 flex flex-col gap-2 font-bold text-gray-100 sm:my-8 text-8xl md:text-8xl lg:text-8xl xl:text-9xl">{formatTime(time)}</div>
             <div className="mx-auto mb-3 mt-2 h-1 w-[200px] overflow-hidden rounded-lg bg-zinc-800 sm:w-full"><div className="h-full rounded-lg bg-zinc-500 transition-all w-0"></div></div>
             <div className="flex space-x-4 mb-4">
                 <button onClick={() => addTime(5)} className="flex flex-col items-center justify-center rounded-md bg-zinc-800 px-3 py-1 text-sm text-zinc-500 hover:text-zinc-400 sm:block sm:bg-transparent sm:px-2">

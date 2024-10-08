@@ -7,7 +7,7 @@ export default function DisplayCol({ data }) {
     const completedTasks = [];
 
     return <>
-        <div className="flex min-h-[400px] h-full flex-grow flex-col overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900 p-4">
+        <div className="flex min-h-[400px] h-full w-full flex-grow flex-col overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900 p-4">
             <h3 className="flex justify-between py-4 text-xs uppercase tracking-[0.15em] text-zinc-500">
                 <span>{data.date.toDateString()}</span>
             </h3>

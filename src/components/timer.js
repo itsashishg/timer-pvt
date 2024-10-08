@@ -73,7 +73,7 @@ const Timer = () => {
                 <div className="text-sm text-gray-500 sm:text-base">Time Left</div>
             )}
             <div className="flex space-x-2 mb-4 text-7xl text-white">
-                <div className="flex max-w-[80px] flex-col items-center sm:max-w-[100px]">
+                <div className="flex flex-col items-center sm:max-w-[100px]">
                     <div className="relative">
                         <input type="text" value={displayedTime.hours} onChange={handleInputChange}
                             readOnly={!isEditing} onClick={() => setIsEditing(true)} id="hours"
@@ -82,7 +82,7 @@ const Timer = () => {
                     </div>
                 </div>
                 <span className="h-full mt-2">:</span>
-                <div className="flex max-w-[80px] flex-col items-center sm:max-w-[100px]">
+                <div className="flex flex-col items-center sm:max-w-[100px]">
                     <div className="relative">
                         <input type="text" value={displayedTime.minutes} onChange={handleInputChange}
                             readOnly={!isEditing} onClick={() => setIsEditing(true)} id="minutes"
@@ -91,7 +91,7 @@ const Timer = () => {
                     </div>
                 </div>
                 <span className="h-full mt-2">:</span>
-                <div className="flex max-w-[80px] flex-col items-center sm:max-w-[100px]">
+                <div className="flex flex-col items-center sm:max-w-[100px]">
                     <div className="relative">
                         <input type="text" value={displayedTime.seconds} onChange={handleInputChange}
                             readOnly={!isEditing} onClick={() => setIsEditing(true)} id="seconds"
