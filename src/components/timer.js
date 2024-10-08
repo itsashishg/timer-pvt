@@ -73,8 +73,8 @@ const Timer = () => {
             ) : (
                 <div className="text-sm text-gray-500 sm:text-base">Time Left</div>
             )}
-            <div className="flex space-x-2 mb-4 text-7xl text-white">
-                <div className="flex flex-col items-center sm:max-w-[100px]">
+            <div className="flex space-x-2 mb-4 text-8xl text-white">
+                <div className="flex flex-col items-center sm:max-w-[130px]">
                     <div className="relative">
                         <input type="text" value={displayedTime.hours} onChange={handleInputChange}
                             readOnly={!isEditing} onClick={() => setIsEditing(true)} id="hours"
@@ -83,21 +83,21 @@ const Timer = () => {
                     </div>
                 </div>
                 <span className="h-full mt-2">:</span>
-                <div className="flex flex-col items-center sm:max-w-[100px]">
+                <div className="flex flex-col items-center sm:max-w-[130px]">
                     <div className="relative">
                         <input type="text" value={displayedTime.minutes} onChange={handleInputChange}
                             readOnly={!isEditing} onClick={() => setIsEditing(true)} id="minutes"
                             className="border-0 bg-inherit text-center focus:outline-none focus:ring-0 w-full pb-7 font-bold sm:pb-9" placeholder="00" />
-                        <span className="pointer-events-none absolute bottom-0 left-1/2 -translate-x-1/2 text-base text-zinc-500 sm:text-2xl">hour</span>
+                        <span className="pointer-events-none absolute bottom-0 left-1/2 -translate-x-1/2 text-base text-zinc-500 sm:text-2xl">minutes</span>
                     </div>
                 </div>
                 <span className="h-full mt-2">:</span>
-                <div className="flex flex-col items-center sm:max-w-[100px]">
+                <div className="flex flex-col items-center sm:max-w-[130px]">
                     <div className="relative">
                         <input type="text" value={displayedTime.seconds} onChange={handleInputChange}
                             readOnly={!isEditing} onClick={() => setIsEditing(true)} id="seconds"
                             className="border-0 bg-inherit text-center focus:outline-none focus:ring-0 w-full pb-7 font-bold sm:pb-9" placeholder="00" />
-                        <span className="pointer-events-none absolute bottom-0 left-1/2 -translate-x-1/2 text-base text-zinc-500 sm:text-2xl">hour</span>
+                        <span className="pointer-events-none absolute bottom-0 left-1/2 -translate-x-1/2 text-base text-zinc-500 sm:text-2xl">seconds</span>
                     </div>
                 </div>
             </div>

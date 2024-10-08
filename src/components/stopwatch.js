@@ -75,7 +75,7 @@ const Stopwatch = () => {
 
     return (
         <div className="flex flex-col items-center justify-center h-screen">
-            <h1 className="mb-3 flex flex-row gap-2 text-3xl font-medium tabular-nums md:mb-5 md:text-5xl lg:mb-7 lg:gap-5 lg:text-7xl text-white">{renderFormattedTime(time, 'text-8xl', 'text-lg')}</h1>
+            <h1 className="mb-3 flex flex-row gap-2 text-8xl font-medium tabular-nums text-white">{renderFormattedTime(time, 'text-8xl', 'text-lg')}</h1>
             <div className="mb-4 mt-2 flex items-center gap-3">
                 {!isActive && <StartBtn emitStart={handleStart} />}
                 {

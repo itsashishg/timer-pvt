@@ -98,7 +98,7 @@ const Pomodoro = () => {
                     <span className="hidden sm:block">Long Break</span>
                 </button>
             </div>
-            <div className="relative my-8 flex flex-col gap-2 font-bold text-gray-100 sm:my-8 text-8xl md:text-8xl lg:text-8xl xl:text-9xl">{formatTime(time)}</div>
+            <div className="relative my-8 flex flex-col gap-2 font-bold text-gray-100 text-8xl">{formatTime(time)}</div>
             <div className="mx-auto mb-3 mt-2 h-1 w-[200px] overflow-hidden rounded-lg bg-zinc-800 sm:w-full"><div className="h-full rounded-lg bg-zinc-500 transition-all w-0"></div></div>
             <div className="flex space-x-4 mb-4">
                 <AddTimeBtn emitTime={() => addTime(5)} showVal={5} />

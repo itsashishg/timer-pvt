@@ -19,7 +19,7 @@ export default function Navbar() {
                 </button>
             </div>
             {/* Main nav */}
-            <div className="hidden md:block main-nav">
+            <div className="hidden md:block main-nav absolute z-20">
                 <div className="flex justify-around gap-2">
                     <NavLink to="/" className={({ isActive }) => `text-center text-lg ${isActive ? 'text-gray-400 font-semibold' : 'text-gray-600 hover:text-gray-500'}`}>
                         Clock
@@ -45,7 +45,7 @@ export default function Navbar() {
 
             {/* Overlay Menu for Small Screens */}
             {isOpen && (
-                <div className="fixed inset-0 bg-gray-800 bg-opacity-90 z-50 flex flex-col items-center justify-center md:hidden">
+                <div className="fixed inset-0 bg-zinc-800 bg-opacity-90 z-50 flex flex-col items-center justify-center md:hidden">
                     <button onClick={toggleMenu} className="absolute top-4 right-4 text-white text-2xl">
                         &times;
                     </button>
@@ -54,6 +54,15 @@ export default function Navbar() {
                     </NavLink>
                     <NavLink to="/pomodoro" className="text-white text-2xl py-4" onClick={() => setIsOpen(false)}>
                         Pomodoro
+                    </NavLink>
+                    <NavLink to="/timer" className="text-white text-2xl py-4" onClick={() => setIsOpen(false)}>
+                        Timer
+                    </NavLink>
+                    <NavLink to="/stopwatch" className="text-white text-2xl py-4" onClick={() => setIsOpen(false)}>
+                        Stopwatch
+                    </NavLink>
+                    <NavLink to="/planner" className="text-white text-2xl py-4" onClick={() => setIsOpen(false)}>
+                        Planner
                     </NavLink>
                 </div>
             )}
