@@ -6,34 +6,38 @@ const Planner = () => {
 
     const [currentDate, setCurrentDate] = useState(new Date());
     const screenSize = useWindowSize().type;
-    // const [taskDetails, setTaskDetails] = useState({ date: new Date(), tasks: [] });
+    const [taskDetails, setTaskDetails] = useState(new Map());
 
-    // useEffect(() => {
-    //     setCurrentDate(new Date());
-    // }, []);
+    // To add mock entries
+    useEffect(() => {
+        // setTaskDetails(new Map().set(new Date().toDateString(), [{ id: 1, desc: 'Something' }, { id: 1, desc: 'Anything' }, { id: 1, desc: 'Nothing' }, { id: 1, desc: 'Everything' }]))
+        const currentMap = new Map();
+        currentMap.set(new Date().toDateString(), [{ id: 1, desc: 'Something', isDone: true }, { id: 2, desc: 'Anything', isDone: false }]);
+        const nextDay = new Date();
+        nextDay.setDate(nextDay.getDate() + 1);
+        currentMap.set(nextDay.toDateString(), [{ id: 1, desc: 'Nothing', isDone: false }, { id: 2, desc: 'Everything', isDone: false }]);
+        setTaskDetails(currentMap);
+    }, []);
 
     const handleChangeDate = (type) => {
         const newDate = new Date(currentDate);
-        type === '<' ? newDate.setDate(currentDate.getDate() - (screenSize === 'xs' ? 1 : 2)) : newDate.setDate(currentDate.getDate() + (screenSize === 'xs' ? 1 : 5));
+        type === '<' ? newDate.setDate(currentDate.getDate() - (screenSize === 'xs' ? 1 : 2)) : newDate.setDate(currentDate.getDate() + (screenSize === 'xs' ? 1 : 4));
         setCurrentDate(newDate);
     };
 
     const generateView = (date) => {
         const viewArray = [];
-        const today = date;
 
         if (screenSize !== 'xs' && screenSize !== 'sm') {
-            const previousDay = new Date(today);
-            previousDay.setDate(today.getDate() - 1);
-            viewArray.push({ date: previousDay, tasks: [] });
+            const previousDay = new Date(new Date(date).setDate(date.getDate() - 1)).toDateString();
+            viewArray.push({ date: previousDay, tasks: taskDetails.get(previousDay) ?? [] });
         }
 
-        viewArray.push({ date: today, tasks: [] });
+        viewArray.push({ date: new Date(date).toDateString(), tasks: taskDetails.get(new Date(date).toDateString()) ?? [] });
 
         for (let i = 1; i < (screenSize === 'xs' ? 0 : screenSize === 'sm' ? 2 : 3); i++) {
-            const nextDay = new Date(today);
-            nextDay.setDate(today.getDate() + i);
-            viewArray.push({ date: nextDay, tasks: [] });
+            const nextDay = new Date(new Date(date).setDate(date.getDate() + i)).toDateString();
+            viewArray.push({ date: nextDay, tasks: taskDetails.get(nextDay) ?? [] });
         }
 
         return <>
@@ -48,7 +52,7 @@ const Planner = () => {
     }
 
     return <div className="h-full w-full flex flex-col p-2">
-        <div className="flex justify-between items-center text-white m-2">
+        <div className="flex justify-between items-center text-white my-2">
             <span className="hidden sm:inline text-3xl font-semibold">Planner</span>
             <span className="flex justify-between gap-2">
                 <button className="planner-btn border border-zinc-800 hover:bg-zinc-800 hover:text-zinc-300">

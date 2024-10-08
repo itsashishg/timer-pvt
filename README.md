@@ -16,6 +16,6 @@ Aivanyi
 ```json
 {
   date: Date;
-  tasks: Map<string , { id : string , desc : string }>;
+  tasks: Map<string , { id : string , desc : string , isDone: boolean }>;
 }
 ```
