@@ -102,23 +102,23 @@ const Timer = () => {
             </div>
             {isActive && (
                 <div className="flex space-x-4 mb-4">
-                    <button onClick={() => addTime(5)} className="flex flex-col items-center justify-center rounded-md bg-zinc-800 px-3 py-1 text-sm text-zinc-500 hover:text-zinc-400 sm:block sm:bg-transparent sm:px-2">
+                    <button onClick={() => addTime(5)} className="add-time-btn">
                         <span>+<span className="hidden sm:inline">&nbsp;</span>5</span> <span>min</span>
                     </button>
-                    <button onClick={() => addTime(10)} className="flex flex-col items-center justify-center rounded-md bg-zinc-800 px-3 py-1 text-sm text-zinc-500 hover:text-zinc-400 sm:block sm:bg-transparent sm:px-2">
+                    <button onClick={() => addTime(10)} className="add-time-btn">
                         <span>+<span className="hidden sm:inline">&nbsp;</span>10</span> <span>min</span>
                     </button>
-                    <button onClick={() => addTime(15)} className="flex flex-col items-center justify-center rounded-md bg-zinc-800 px-3 py-1 text-sm text-zinc-500 hover:text-zinc-400 sm:block sm:bg-transparent sm:px-2">
+                    <button onClick={() => addTime(15)} className="add-time-btn">
                         <span>+<span className="hidden sm:inline">&nbsp;</span>15</span> <span>min</span>
                     </button>
-                    <button onClick={() => addTime(20)} className="flex flex-col items-center justify-center rounded-md bg-zinc-800 px-3 py-1 text-sm text-zinc-500 hover:text-zinc-400 sm:block sm:bg-transparent sm:px-2">
+                    <button onClick={() => addTime(20)} className="add-time-btn">
                         <span>+<span className="hidden sm:inline">&nbsp;</span>20</span> <span>min</span>
                     </button>
                 </div>
             )}
             <div className="mt-2 flex items-center gap-3">
                 {!isActive &&
-                    <button onClick={handleStart} className="flex h-[32px] items-center gap-2 rounded-md bg-zinc-800 px-3 py-1.5 text-sm text-zinc-400 outline-none transition-colors hover:bg-zinc-700 hover:text-zinc-200 md:h-[40px] md:px-5 md:py-1.5 md:text-base lg:h-[44px] lg:rounded-lg lg:text-base">
+                    <button onClick={handleStart} className="action-btn outline-none">
                         <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                             <polygon points="6 3 20 12 6 21 6 3"></polygon>
                         </svg> Start Timer
@@ -126,14 +126,14 @@ const Timer = () => {
                 }
                 {
                     (isActive) &&
-                    <button onClick={handlePause} className="flex h-[32px] items-center gap-1 rounded-md bg-zinc-800 px-3 py-1.5 text-sm text-zinc-400 transition-colors hover:bg-zinc-700 hover:text-zinc-200 sm:gap-2 md:h-[40px] md:pl-3 md:pr-4 md:py-2 md:text-base lg:h-[44px] lg:rounded-lg lg:text-base">
+                    <button onClick={handlePause} className="action-btn">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-[12px] w-[12px] sm:h-[17px] sm:w-[17px]">
                             <rect x="14" y="4" width="4" height="16" rx="1"></rect><rect x="6" y="4" width="4" height="16" rx="1"></rect>
                         </svg>Pause
                     </button>
                 }
                 {(isActive || isPaused) && (
-                    <button onClick={handleStop} className="flex h-[32px] items-center gap-2 rounded-md bg-zinc-800 px-3 py-1.5 text-sm text-zinc-400 transition-colors hover:bg-zinc-700 hover:text-zinc-200 md:h-[40px] md:px-4 md:py-2 md:text-base lg:h-[44px] lg:rounded-lg lg:text-lg">
+                    <button onClick={handleStop} className="action-btn">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-[14px] w-[14px] md:h-[18px] md:w-[18px]">
                             <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
                             <path d="M3 3v5h5"></path>

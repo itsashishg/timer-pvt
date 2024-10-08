@@ -13,16 +13,9 @@ const Planner = () => {
     // }, []);
 
     const handleChangeDate = (type) => {
-        if (type === '<') {
-            const previousDay = new Date(currentDate);
-            previousDay.setDate(currentDate.getDate() - (screenSize === 'xs' ? 1 : 2));
-            setCurrentDate(previousDay);
-        }
-        else {
-            const nextDay = new Date(currentDate);
-            nextDay.setDate(currentDate.getDate() + (screenSize === 'xs' ? 1 : 5));
-            setCurrentDate(nextDay);
-        }
+        const newDate = new Date(currentDate);
+        type === '<' ? newDate.setDate(currentDate.getDate() - (screenSize === 'xs' ? 1 : 2)) : newDate.setDate(currentDate.getDate() + (screenSize === 'xs' ? 1 : 5));
+        setCurrentDate(newDate);
     };
 
     const generateView = (date) => {
@@ -58,7 +51,7 @@ const Planner = () => {
         <div className="flex justify-between items-center text-white m-2">
             <span className="hidden sm:inline">Planner</span>
             <span className="flex justify-between gap-2">
-                <button className="flex items-center gap-1.5 rounded-lg border border-zinc-800 bg-zinc-900 px-2.5 py-1.5 text-sm font-medium text-zinc-400 hover:bg-zinc-800 hover:text-zinc-300">
+                <button className="planner-btn border border-zinc-800 hover:bg-zinc-800 hover:text-zinc-300">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                         <path d="m17 2 4 4-4 4"></path>
                         <path d="M3 11v-1a4 4 0 0 1 4-4h14"></path>
@@ -67,18 +60,18 @@ const Planner = () => {
                     </svg>
                     <span className="hidden items-center gap-1.5 sm:inline-flex">Routine</span>
                 </button>
-                <button className="flex items-center justify-between gap-1.5 rounded-md bg-zinc-800 px-3 py-1.5 text-sm text-zinc-400 outline-none hover:bg-zinc-700 hover:text-zinc-200 focus-visible:shadow-[0_0_0_1px] focus-visible:shadow-zinc-900">Today</button>
-                <button className="flex items-center rounded-md bg-zinc-800 px-3 py-1.5 text-sm text-zinc-400 outline-none hover:bg-zinc-700 hover:text-zinc-200 focus-visible:shadow-[0_0_0_1px] focus-visible:shadow-zinc-900">
+                <button className="planner-btn justify-between hover:bg-zinc-700 hover:text-zinc-200 focus-visible:shadow-[0_0_0_1px] focus-visible:shadow-zinc-90">Today</button>
+                <button className="planner-btn hover:bg-zinc-700 hover:text-zinc-200 focus-visible:shadow-[0_0_0_1px] focus-visible:shadow-zinc-900">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                         <path d="M8 2v4"></path><path d="M16 2v4"></path>
                         <rect width="18" height="18" x="3" y="4" rx="2"></rect>
                         <path d="M3 10h18"></path>
                     </svg>
                 </button>
-                <button onClick={() => handleChangeDate('<')} className="bg-zinc-800 px-3 text-zinc-400 transition-colors hover:bg-zinc-700 hover:text-zinc-200 sm:py-1.5 rounded-lg py-2">
+                <button onClick={() => handleChangeDate('<')} className="change-date-btn">
                     <span>&lt;</span>
                 </button>
-                <button onClick={() => handleChangeDate('>')} className="bg-zinc-800 px-3 text-zinc-400 transition-colors hover:bg-zinc-700 hover:text-zinc-200 sm:py-1.5 rounded-lg py-2">
+                <button onClick={() => handleChangeDate('>')} className="change-date-btn">
                     <span>&gt;</span>
                 </button>
             </span>

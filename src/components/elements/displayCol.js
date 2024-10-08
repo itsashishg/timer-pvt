@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 export default function DisplayCol({ data }) {
 
     const [addElement, setAddElement] = useState(false);
-    const pendingTasks = [{ id: 1, desc: 'Something' }, { id: 1, desc: 'Anything' }, { id: 1, desc: 'Nothing' }, { id: 1, desc: 'Everything' }];
+    const pendingTasks = [];
     const completedTasks = [];
 
     return <>
