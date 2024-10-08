@@ -21,9 +21,15 @@ const Planner = () => {
 
     const handleChangeDate = (type) => {
         const newDate = new Date(currentDate);
-        type === '<' ? newDate.setDate(currentDate.getDate() - (screenSize === 'xs' ? 1 : 2)) : newDate.setDate(currentDate.getDate() + (screenSize === 'xs' ? 1 : 4));
+        type === '<' ? newDate.setDate(currentDate.getDate() - (screenSize === 'xs' ? 1 : 3)) : newDate.setDate(currentDate.getDate() + (screenSize === 'xs' ? 1 : 4));
         setCurrentDate(newDate);
     };
+
+    const updateValues = (date, newList) => {
+        const currentData = taskDetails;
+        currentData.set(date, newList);
+        setTaskDetails(currentData);
+    }
 
     const generateView = (date) => {
         const viewArray = [];
@@ -44,7 +50,7 @@ const Planner = () => {
             <div className="flex items-center flex-col justify-between h-full w-full gap-2 sm:flex-row">
                 {
                     viewArray.map((dayAndTask, index) => (
-                        <DisplayCol key={index} data={dayAndTask} />
+                        <DisplayCol key={index} data={dayAndTask} updateTask={updateValues} />
                     ))
                 }
             </div >
