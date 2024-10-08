@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { AddTimeBtn, ResetBtn, StartBtn } from './elements/buttons';
 
 const Pomodoro = () => {
     const [time, setTime] = useState(1500);
@@ -100,18 +101,10 @@ const Pomodoro = () => {
             <div className="relative my-8 flex flex-col gap-2 font-bold text-gray-100 sm:my-8 text-8xl md:text-8xl lg:text-8xl xl:text-9xl">{formatTime(time)}</div>
             <div className="mx-auto mb-3 mt-2 h-1 w-[200px] overflow-hidden rounded-lg bg-zinc-800 sm:w-full"><div className="h-full rounded-lg bg-zinc-500 transition-all w-0"></div></div>
             <div className="flex space-x-4 mb-4">
-                <button onClick={() => addTime(5)} className="add-time-btn">
-                    <span>+<span className="hidden sm:inline">&nbsp;</span>5</span> <span>min</span>
-                </button>
-                <button onClick={() => addTime(10)} className="add-time-btn">
-                    <span>+<span className="hidden sm:inline">&nbsp;</span>10</span> <span>min</span>
-                </button>
-                <button onClick={() => addTime(15)} className="add-time-btn">
-                    <span>+<span className="hidden sm:inline">&nbsp;</span>15</span> <span>min</span>
-                </button>
-                <button onClick={() => addTime(20)} className="add-time-btn">
-                    <span>+<span className="hidden sm:inline">&nbsp;</span>20</span> <span>min</span>
-                </button>
+                <AddTimeBtn emitTime={() => addTime(5)} showVal={5} />
+                <AddTimeBtn emitTime={() => addTime(10)} showVal={10} />
+                <AddTimeBtn emitTime={() => addTime(15)} showVal={15} />
+                <AddTimeBtn emitTime={() => addTime(20)} showVal={20} />
             </div>
             <div className='mt-5 flex items-center gap-1.5 sm:gap-3'>
                 {isActive ? (
@@ -127,20 +120,10 @@ const Pomodoro = () => {
                             }
                             <span className="hidden sm:block">{isPaused ? 'Resume' : 'Pause'}</span>
                         </button>
-                        <button onClick={handleStop} className="action-btn">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-[14px] w-[14px] md:h-[18px] md:w-[18px]">
-                                <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
-                                <path d="M3 3v5h5"></path>
-                            </svg>
-                            <span className="hidden sm:block">Reset</span>
-                        </button>
+                        <ResetBtn emitStop={handleStop} />
                     </>
                 ) : (
-                    <button onClick={() => setIsActive(true)} className="action-btn outline-none">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                            <polygon points="6 3 20 12 6 21 6 3"></polygon>
-                        </svg> Start
-                    </button>
+                    <StartBtn emitStart={() => setIsActive(true)} />
                 )}
             </div>
         </div>
