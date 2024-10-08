@@ -5,6 +5,7 @@ import Navbar from './components/navbar';
 import Pomodoro from './components/pomodoro';
 import Timer from './components/timer';
 import Stopwatch from './components/stopwatch';
+import Planner from './components/planner';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route path="/pomodoro" element={<Pomodoro />} />
           <Route path="/timer" element={<Timer />} />
           <Route path="/stopwatch" element={<Stopwatch />} />
+          <Route path="/planner" element={<Planner />} />
         </Routes>
       </Router>
     </>
