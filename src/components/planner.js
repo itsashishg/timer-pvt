@@ -12,7 +12,7 @@ const Planner = () => {
     useEffect(() => {
         // setTaskDetails(new Map().set(new Date().toDateString(), [{ id: 1, desc: 'Something' }, { id: 1, desc: 'Anything' }, { id: 1, desc: 'Nothing' }, { id: 1, desc: 'Everything' }]))
         const currentMap = new Map();
-        currentMap.set(new Date().toDateString(), [{ id: 1, desc: 'Something', isDone: true }, { id: 2, desc: 'Anything', isDone: false }]);
+        currentMap.set(new Date().toDateString(), [{ id: 1, desc: 'Something', isDone: true }, { id: 2, desc: 'Anything', isDone: false },{ id: 1, desc: 'Something', isDone: true }, { id: 2, desc: 'Anything', isDone: false },{ id: 1, desc: 'Something', isDone: true }, { id: 2, desc: 'Anything', isDone: false },{ id: 1, desc: 'Something', isDone: true }, { id: 2, desc: 'Anything', isDone: false },{ id: 1, desc: 'Something', isDone: true }, { id: 2, desc: 'Anything', isDone: false },{ id: 1, desc: 'Something', isDone: true }, { id: 2, desc: 'Anything', isDone: false },{ id: 1, desc: 'Something', isDone: true }, { id: 2, desc: 'Anything', isDone: false },{ id: 1, desc: 'Something', isDone: true }, { id: 2, desc: 'Anything', isDone: false },{ id: 1, desc: 'Something', isDone: true }, { id: 2, desc: 'Anything', isDone: false },{ id: 1, desc: 'Something', isDone: true }, { id: 2, desc: 'Anything', isDone: false },{ id: 1, desc: 'Something', isDone: true }, { id: 2, desc: 'Anything', isDone: false },{ id: 1, desc: 'Something', isDone: true }, { id: 2, desc: 'Anything', isDone: false },{ id: 1, desc: 'Something', isDone: true }, { id: 2, desc: 'Anything', isDone: false },{ id: 1, desc: 'Something', isDone: true }, { id: 2, desc: 'Anything', isDone: false },{ id: 1, desc: 'Something', isDone: true }, { id: 2, desc: 'Anything', isDone: false },{ id: 1, desc: 'Something', isDone: true }, { id: 2, desc: 'Anything', isDone: false },{ id: 1, desc: 'Something', isDone: true }, { id: 2, desc: 'Anything', isDone: false }]);
         const nextDay = new Date();
         nextDay.setDate(nextDay.getDate() + 1);
         currentMap.set(nextDay.toDateString(), [{ id: 1, desc: 'Nothing', isDone: false }, { id: 2, desc: 'Everything', isDone: false }]);
@@ -70,7 +70,7 @@ const Planner = () => {
                     </svg>
                     <span className="hidden items-center gap-1.5 sm:inline-flex">Routine</span>
                 </button>
-                <button className="planner-btn justify-between hover:bg-zinc-700 hover:text-zinc-200 focus-visible:shadow-[0_0_0_1px] focus-visible:shadow-zinc-90">Today</button>
+                <button onClick={() => setCurrentDate(new Date())} className="planner-btn justify-between hover:bg-zinc-700 hover:text-zinc-200 focus-visible:shadow-[0_0_0_1px] focus-visible:shadow-zinc-90">Today</button>
                 <button className="planner-btn hover:bg-zinc-700 hover:text-zinc-200 focus-visible:shadow-[0_0_0_1px] focus-visible:shadow-zinc-900">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                         <path d="M8 2v4"></path><path d="M16 2v4"></path>
@@ -86,7 +86,7 @@ const Planner = () => {
                 </button>
             </span>
         </div>
-        <div className="flex-grow">{generateView(currentDate)}</div>
+        <div className="flex-grow overflow-y-auto">{generateView(currentDate)}</div>
     </div>;
 }
 

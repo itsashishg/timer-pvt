@@ -24,15 +24,15 @@ export default function DisplayCol({ data, updateTask }) {
     }
 
     return <>
-        <div className={`flex min-h-[400px] h-full w-full flex-grow flex-col overflow-hidden rounded-xl border bg-zinc-900 p-4 ${new Date().toDateString() === data.date ? 'border-sky-700' : 'border-zinc-800'}`}>
-            <h3 className="flex justify-between py-4 text-xs uppercase tracking-[0.15em] text-zinc-500">
-                <span>{data.date}</span>
+        <div className={`h-full w-full flex flex-col rounded-xl border bg-zinc-900 p-4 ${new Date().toDateString() === data.date ? 'border-sky-700' : 'border-zinc-800'}`}>
+            <h3 className="py-4 text-xs uppercase tracking-[0.15em]">
+                <span className={`${new Date().toDateString() === data.date ? 'text-sky-600 font-bold' : 'text-zinc-500'}`}>{data.date}</span>
             </h3>
-            <div className="flex flex-grow flex-col">
-                <div className="border-b-2 border-t-2 last:mb-0 active:cursor-grabbing border-b-transparent border-t-transparent">
+            <div className="flex flex-col h-full overflow-y-auto">
+                <div className="border-b-2 border-t-2 last:mb-0 border-b-transparent border-t-transparent overflow-y-auto select-none">
                     {
                         totalTasks.map((task, index) => (
-                            <div key={index} className="relative -mx-3 flex cursor-pointer select-none items-start gap-3 px-3 py-2.5 active:bg-zinc-800 group hover:bg-zinc-800">
+                            <div key={index} className="w-full relative flex cursor-pointer items-start gap-3 px-3 py-2.5 rounded-md active:bg-zinc-800 group hover:bg-zinc-800">
                                 <button className={`z-[20] mt-[2.15px] flex h-[17px] w-[17px] flex-shrink-0 cursor-pointer items-center justify-center rounded-md border-[1.5px] border-zinc-600 hover:border-zinc-400 ${task.isDone ? 'bg-zinc-700 text-zinc-950' : ''}`}>
                                     {
                                         task.isDone &&
@@ -64,36 +64,32 @@ export default function DisplayCol({ data, updateTask }) {
                             </div>
                         ))
                     }
-                    {
-                        (!addElement && (totalTasks.length !== 0)) &&
-                        <div className="mt-3 flex items-center justify-start">
-                            <button onClick={() => setAddElement(true)} className="flex w-full items-center justify-center gap-1 rounded-lg border border-dashed border-zinc-700 px-3 py-1.5 text-sm text-zinc-500 transition-colors group hover:border-zinc-500 hover:text-zinc-200">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="flex h-[15px] w-[15px] flex-shrink-0 cursor-pointer items-center justify-center rounded-md group-hover:border-zinc-400">
-                                    <path d="M5 12h14"></path>
-                                    <path d="M12 5v14"></path>
-                                </svg>
-                                <span className="text-sm ">Add new task</span>
-                            </button>
-                        </div>
-                    }
                 </div>
                 {
+                    (!addElement && (totalTasks.length !== 0)) &&
+                    <div className="mt-3 flex items-center justify-start">
+                        <button onClick={() => setAddElement(true)} className="flex w-full items-center justify-center gap-1 rounded-lg border border-dashed border-zinc-700 px-3 py-1.5 text-sm text-zinc-500 transition-colors group hover:border-zinc-500 hover:text-zinc-200">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="flex h-[15px] w-[15px] flex-shrink-0 cursor-pointer items-center justify-center rounded-md group-hover:border-zinc-400">
+                                <path d="M5 12h14"></path>
+                                <path d="M12 5v14"></path>
+                            </svg>
+                            <span className="text-sm ">Add new task</span>
+                        </button>
+                    </div>
+                }
+                {
                     (totalTasks.length === 0 && !addElement) &&
-                    <div className="custom-scrollbar relative flex flex-grow flex-col overflow-y-scroll">
-                        <div className="absolute inset-0 flex flex-col gap-5 px-3">
-                            <div className="flex-grow pb-10">
-                                <div>
-                                    <div className="absolute inset-0 flex flex-1 flex-grow flex-col items-center justify-center gap-1 text-sm text-zinc-600">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mb-3 flex h-[45px] w-[45px] flex-shrink-0 cursor-pointer items-center justify-center rounded-md text-zinc-800">
-                                            <path d="m9 11 3 3L22 4"></path>
-                                            <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
-                                        </svg>
-                                        <p>No tasks for this day</p>
-                                        <p>
-                                            <button onClick={() => setAddElement(true)} className="text-zinc-500 underline underline-offset-2 hover:text-zinc-300">Add a new task</button>
-                                        </p>
-                                    </div>
-                                </div>
+                    <div className="relative h-full">
+                        <div className="absolute inset-0 px-3">
+                            <div className="h-full pb-10 flex flex-col items-center justify-center gap-1 text-sm text-zinc-600">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mb-3 flex h-[45px] w-[45px] flex-shrink-0 cursor-pointer items-center justify-center rounded-md text-zinc-800">
+                                    <path d="m9 11 3 3L22 4"></path>
+                                    <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+                                </svg>
+                                <p>No tasks for this day</p>
+                                <p>
+                                    <button onClick={() => setAddElement(true)} className="text-zinc-500 underline underline-offset-2 hover:text-zinc-300">Add new task</button>
+                                </p>
                             </div>
                         </div>
                     </div>
