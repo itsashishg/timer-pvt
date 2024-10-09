@@ -8,15 +8,8 @@ const Planner = () => {
     const screenSize = useWindowSize().type;
     const [taskDetails, setTaskDetails] = useState(new Map());
 
-    // To add mock entries
     useEffect(() => {
-        // setTaskDetails(new Map().set(new Date().toDateString(), [{ id: 1, desc: 'Something' }, { id: 1, desc: 'Anything' }, { id: 1, desc: 'Nothing' }, { id: 1, desc: 'Everything' }]))
-        const currentMap = new Map();
-        currentMap.set(new Date().toDateString(), [{ id: 1, desc: 'Something', isDone: true }, { id: 2, desc: 'Anything', isDone: false },{ id: 1, desc: 'Something', isDone: true }, { id: 2, desc: 'Anything', isDone: false },{ id: 1, desc: 'Something', isDone: true }, { id: 2, desc: 'Anything', isDone: false },{ id: 1, desc: 'Something', isDone: true }, { id: 2, desc: 'Anything', isDone: false },{ id: 1, desc: 'Something', isDone: true }, { id: 2, desc: 'Anything', isDone: false },{ id: 1, desc: 'Something', isDone: true }, { id: 2, desc: 'Anything', isDone: false },{ id: 1, desc: 'Something', isDone: true }, { id: 2, desc: 'Anything', isDone: false },{ id: 1, desc: 'Something', isDone: true }, { id: 2, desc: 'Anything', isDone: false },{ id: 1, desc: 'Something', isDone: true }, { id: 2, desc: 'Anything', isDone: false },{ id: 1, desc: 'Something', isDone: true }, { id: 2, desc: 'Anything', isDone: false },{ id: 1, desc: 'Something', isDone: true }, { id: 2, desc: 'Anything', isDone: false },{ id: 1, desc: 'Something', isDone: true }, { id: 2, desc: 'Anything', isDone: false },{ id: 1, desc: 'Something', isDone: true }, { id: 2, desc: 'Anything', isDone: false },{ id: 1, desc: 'Something', isDone: true }, { id: 2, desc: 'Anything', isDone: false },{ id: 1, desc: 'Something', isDone: true }, { id: 2, desc: 'Anything', isDone: false },{ id: 1, desc: 'Something', isDone: true }, { id: 2, desc: 'Anything', isDone: false },{ id: 1, desc: 'Something', isDone: true }, { id: 2, desc: 'Anything', isDone: false }]);
-        const nextDay = new Date();
-        nextDay.setDate(nextDay.getDate() + 1);
-        currentMap.set(nextDay.toDateString(), [{ id: 1, desc: 'Nothing', isDone: false }, { id: 2, desc: 'Everything', isDone: false }]);
-        setTaskDetails(currentMap);
+        setTaskDetails(readMapFromLocalStorage());
     }, []);
 
     const handleChangeDate = (type) => {
@@ -26,10 +19,21 @@ const Planner = () => {
     };
 
     const updateValues = (date, newList) => {
-        const currentData = taskDetails;
-        currentData.set(date, newList);
-        setTaskDetails(currentData);
+        const updatedMap = new Map(taskDetails);
+        updatedMap.set(date, newList);
+        setTaskDetails(updatedMap);
+        storeMapInLocalStorage(taskDetails);
     }
+
+    const storeMapInLocalStorage = (map) => {
+        const mapArray = Array.from(map.entries());
+        localStorage.setItem('userTasks', JSON.stringify(mapArray));
+    };
+
+    const readMapFromLocalStorage = () => {
+        const mapArray = JSON.parse(localStorage.getItem('userTasks'));
+        return new Map(mapArray);
+    };
 
     const generateView = (date) => {
         const viewArray = [];

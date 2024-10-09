@@ -5,6 +5,7 @@ export default function DisplayCol({ data, updateTask }) {
     const [addElement, setAddElement] = useState(false);
     const [totalTasks, setTotalTasks] = useState([]);
     const [newTask, setNewTask] = useState('');
+    const [showCompleted, setShowCompleted] = useState(false);
 
     useEffect(() => {
         setTotalTasks(data.tasks);
@@ -12,15 +13,32 @@ export default function DisplayCol({ data, updateTask }) {
         setAddElement(false);
     }, [data]);
 
+    // useEffect(() => {
+    //     updateTask(data.date, totalTasks);
+    // }, [totalTasks]);
+
     const handleAddData = (event) => {
         if (event.key === 'Enter' && newTask.trim()) {
             event.preventDefault();
-            const updatedList = [...data.tasks, { id: data.tasks.length + 1, desc: newTask, isDone: false }];
-            setTotalTasks(updatedList);
+            const updatedList = data.tasks;
+            updatedList.push({ id: data.tasks.length + 1, desc: newTask, isDone: false });
+            // setTotalTasks(updatedList);
             updateTask(data.date, updatedList);
             setNewTask('');
             setAddElement(false);
         }
+    }
+
+    const updateTaskStatus = (index) => {
+        const updatedItems = data.tasks.map((item, i) => (i === index ? { ...item, isDone: !item.isDone } : item));
+        // Update the state with the new array
+        // setItems(updatedItems);
+        // setTotalTasks(updatedItems);
+        updateTask(data.date, updatedItems);
+    }
+
+    const hasCompletedTasks = () => {
+        return data.tasks.filter(task => task.isDone).length > 0;
     }
 
     return <>
@@ -31,9 +49,9 @@ export default function DisplayCol({ data, updateTask }) {
             <div className="flex flex-col h-full overflow-y-auto">
                 <div className="border-b-2 border-t-2 last:mb-0 border-b-transparent border-t-transparent overflow-y-auto select-none">
                     {
-                        totalTasks.map((task, index) => (
-                            <div key={index} className="w-full relative flex cursor-pointer items-start gap-3 px-3 py-2.5 rounded-md active:bg-zinc-800 group hover:bg-zinc-800">
-                                <button className={`z-[20] mt-[2.15px] flex h-[17px] w-[17px] flex-shrink-0 cursor-pointer items-center justify-center rounded-md border-[1.5px] border-zinc-600 hover:border-zinc-400 ${task.isDone ? 'bg-zinc-700 text-zinc-950' : ''}`}>
+                        totalTasks.map((task, index) => {
+                            return (!task.isDone || showCompleted) && <div key={index} className="w-full relative flex cursor-pointer items-start gap-3 px-3 py-2.5 rounded-md active:bg-zinc-800 group hover:bg-zinc-800">
+                                <button onClick={() => updateTaskStatus(index)} className={`z-[20] mt-[2.15px] flex h-[17px] w-[17px] flex-shrink-0 cursor-pointer items-center justify-center rounded-md border-[1.5px] border-zinc-600 hover:border-zinc-400 ${task.isDone ? 'bg-zinc-700 text-zinc-950' : ''}`}>
                                     {
                                         task.isDone &&
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" className="relative top-[0.4px] h-[12px]">
@@ -62,7 +80,7 @@ export default function DisplayCol({ data, updateTask }) {
                                     </button>
                                 </div>
                             </div>
-                        ))
+                        })
                     }
                 </div>
                 {
@@ -118,6 +136,16 @@ export default function DisplayCol({ data, updateTask }) {
                     </form>
                 }
             </div>
+            {
+                hasCompletedTasks() &&
+                <div className="inset-x-0 bottom-0 -mb-3.5 flex flex-grow items-end justify-center rounded-b-md bg-gradient-to-t from-zinc-900 to-zinc-900 py-3.5">
+                    <button onClick={() => setShowCompleted(!showCompleted)} className="z-[10] flex cursor-pointer items-center gap-2 rounded-md border-dashed border-zinc-700 text-sm text-zinc-500 transition-colors hover:border-zinc-500 hover:text-zinc-200">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-flag flex h-[15px] w-[15px] flex-shrink-0 cursor-pointer items-center justify-center rounded-md hover:border-zinc-400">
+                            <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path>
+                            <line x1="4" x2="4" y1="22" y2="15"></line>
+                        </svg>{showCompleted ? 'Hide' : 'Show'} completed task(s)</button>
+                </div>
+            }
         </div>
     </>;
 }
