@@ -183,10 +183,31 @@ input {
 }
 
 .dialog {
-    background: white;
-    padding: 20px;
+    /* background: white; */
+    /* padding: 20px; */
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    width: 300px;
+    /* width: 300px; */
     z-index: 1001;
+}
+
+.routine-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem;
+    border-radius: 0.375rem;
+    border: 1px solid #27272a;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+    text-transform: capitalize;
+    background-color: #27272a;
+    color: #a1a1aa;
+}
+
+.active-routine-btn {
+    background-color: #a1a1aa;
+    color: #111827;
 }
