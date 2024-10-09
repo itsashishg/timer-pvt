@@ -27,6 +27,11 @@ export default function DisplayCol({ data, updateTask }) {
         updateTask(data.date, updatedItems);
     }
 
+    const deleteTask = (index) => {
+        const newList = data.tasks.filter((item, i) => i !== index);
+        updateTask(data.date, newList);
+    }
+
     const hasCompletedTasks = () => {
         return data.tasks.filter(task => task.isDone).length > 0;
     }
@@ -59,7 +64,7 @@ export default function DisplayCol({ data, updateTask }) {
                                             <path d="M18.375 2.625a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4Z"></path>
                                         </svg>
                                     </button>
-                                    <button className="flex items-center gap-1 text-sm text-zinc-500 hover:text-zinc-300">
+                                    <button onClick={() => deleteTask(index)} className="flex items-center gap-1 text-sm text-zinc-500 hover:text-zinc-300">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                             <path d="M3 6h18"></path>
                                             <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
