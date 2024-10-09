@@ -14,7 +14,7 @@ export default function Routine({ isOpen, onClose, updateHandler }) {
         setRoutineType('DAILY');
         setDaysList([]);
         setDatesList([]);
-    }, [])
+    }, [isOpen])
 
     if (!isOpen) return null;
 
@@ -48,21 +48,19 @@ export default function Routine({ isOpen, onClose, updateHandler }) {
         <div className="dialog-overlay" onClick={handleOverlayClick}>
             <div className="dialog border-zinc-800 bg-zinc-900 p-4 text-sm text-zinc-400 flex flex-col rounded-lg border" onClick={handleDialogClick}>
                 <p className="text-center mb-2 font-bold">Routine Task</p>
-                <div className="mx-auto">
+                <div className="mx-auto w-full">
                     <input type="text" value={taskName} onChange={(e) => setTaskName(e.target.value)} placeholder="Enter task" className="mb-3 w-full rounded-md bg-zinc-800 px-3 py-2 text-zinc-300 outline-none focus:ring-0" />
                     <p className="mb-2">Select routing type</p>
-                    <div className="mb-3 flex flex-wrap gap-2">
+                    <div className="mb-3 flex items-center justify-around">
                         <button type="button" onClick={() => setRoutineType('DAILY')}
                             className={`routine-btn ${routineType === 'DAILY' ? 'active-routine-btn' : ''}`}>daily</button>
                         <button type="button" onClick={() => setRoutineType('WEEKLY')}
                             className={`routine-btn ${routineType === 'WEEKLY' ? 'active-routine-btn' : ''}`}>weekly</button>
-                        <button type="button" onClick={() => setRoutineType('BI_WEEKLY')}
-                            className={`routine-btn ${routineType === 'BI_WEEKLY' ? 'active-routine-btn' : ''}`}>bi-weekly</button>
                         <button type="button" onClick={() => setRoutineType('MONTHLY')}
                             className={`routine-btn ${routineType === 'MONTHLY' ? 'active-routine-btn' : ''}`}>monthly</button>
                     </div>
                     {
-                        (routineType === 'BI_WEEKLY' || routineType === 'WEEKLY') &&
+                        (routineType === 'WEEKLY') &&
                         <div className="mb-3">
                             <p className="mb-2">On which days</p>
                             <div className="grid grid-cols-4 gap-2">

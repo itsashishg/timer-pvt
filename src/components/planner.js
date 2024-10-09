@@ -45,7 +45,8 @@ const Planner = () => {
     }
 
     const updateRoutine = (newRoutine) => {
-        const newList = [newRoutine, { ...routineTasks, id: uuid(routineTasks.map((task) => task.id)) }];
+        const newList = routineTasks;
+        newList.push({ ...newRoutine, id: uuid(routineTasks.map((task) => task.id)) });
         setRoutineTasks(newList);
         storeInLocalStorage(newList, 'routineTasks');
     }
@@ -58,16 +59,26 @@ const Planner = () => {
         const currentTaskList = taskDetails.get(date.toDateString()) ?? [];
 
         routineTasks.forEach((routine) => {
-            // if (routine.dates.includes(date)) {
-            //     currentTaskList.push(...routine.tasks);
-            // }
-            if (routine.type === 'DAILY') {
-                if (!currentTaskList.find(task => task.routineTaskId === routine.id)) {
+            if (currentTaskList.find(task => task.routineTaskId === routine.id) === undefined) {
+                if (routine.type === 'DAILY') {
                     currentTaskList.push({ id: currentTaskList.length + 1, desc: routine.taskName, isDone: false, isRoutine: true, routineTaskId: routine.id });
                 }
-            }
-            else if (routine.type === 'WEEKLY') {
-
+                else if (routine.type === 'WEEKLY') {
+                    let daysToBeAdded = routine.days ?? [];
+                    daysToBeAdded.forEach((day) => {
+                        if (day === getCurrentDay(date)) {
+                            currentTaskList.push({ id: currentTaskList.length + 1, desc: routine.taskName, isDone: false, isRoutine: true, routineTaskId: routine.id });
+                        }
+                    });
+                }
+                else if (routine.type === 'MONTHLY') {
+                    let datesToBeAdded = routine.dates ?? [];
+                    datesToBeAdded.forEach((day) => {
+                        if (day === date.getDate()) {
+                            currentTaskList.push({ id: currentTaskList.length + 1, desc: routine.taskName, isDone: false, isRoutine: true, routineTaskId: routine.id });
+                        }
+                    });
+                }
             }
         });
 
@@ -103,7 +114,9 @@ const Planner = () => {
 
     return <div className="h-full w-full flex flex-col p-2">
         <div className="flex justify-between items-center text-white my-2">
-            <span className="hidden sm:inline text-3xl font-semibold">Planner</span>
+            <div class="text-3xl font-extrabold text-gray-900 dark:text-white pl-1">
+                <span class="text-transparent bg-clip-text bg-gradient-to-r to-slate-500 from-zinc-600">Planner</span>
+            </div>
             <span className="flex justify-between gap-2">
                 <button onClick={() => setOpenRoutine(true)} className="planner-btn border border-zinc-800 hover:bg-zinc-800 hover:text-zinc-300">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -137,4 +150,8 @@ function uuid(existingUIDs) {
         uid = Math.floor(1000 + Math.random() * 9000).toString();
     } while (existingUIDs.includes(uid));
     return uid;
+}
+function getCurrentDay(date) {
+    const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    return daysOfWeek[date.getDay()];
 }
