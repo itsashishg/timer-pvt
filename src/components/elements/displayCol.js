@@ -3,26 +3,19 @@ import React, { useEffect, useState } from "react";
 export default function DisplayCol({ data, updateTask }) {
 
     const [addElement, setAddElement] = useState(false);
-    const [totalTasks, setTotalTasks] = useState([]);
     const [newTask, setNewTask] = useState('');
     const [showCompleted, setShowCompleted] = useState(false);
 
     useEffect(() => {
-        setTotalTasks(data.tasks);
         setNewTask('');
         setAddElement(false);
     }, [data]);
-
-    // useEffect(() => {
-    //     updateTask(data.date, totalTasks);
-    // }, [totalTasks]);
 
     const handleAddData = (event) => {
         if (event.key === 'Enter' && newTask.trim()) {
             event.preventDefault();
             const updatedList = data.tasks;
             updatedList.push({ id: data.tasks.length + 1, desc: newTask, isDone: false });
-            // setTotalTasks(updatedList);
             updateTask(data.date, updatedList);
             setNewTask('');
             setAddElement(false);
@@ -31,9 +24,6 @@ export default function DisplayCol({ data, updateTask }) {
 
     const updateTaskStatus = (index) => {
         const updatedItems = data.tasks.map((item, i) => (i === index ? { ...item, isDone: !item.isDone } : item));
-        // Update the state with the new array
-        // setItems(updatedItems);
-        // setTotalTasks(updatedItems);
         updateTask(data.date, updatedItems);
     }
 
@@ -49,7 +39,7 @@ export default function DisplayCol({ data, updateTask }) {
             <div className="flex flex-col h-full overflow-y-auto">
                 <div className="border-b-2 border-t-2 last:mb-0 border-b-transparent border-t-transparent overflow-y-auto select-none">
                     {
-                        totalTasks.map((task, index) => {
+                        data.tasks.map((task, index) => {
                             return (!task.isDone || showCompleted) && <div key={index} className="w-full relative flex cursor-pointer items-start gap-3 px-3 py-2.5 rounded-md active:bg-zinc-800 group hover:bg-zinc-800">
                                 <button onClick={() => updateTaskStatus(index)} className={`z-[20] mt-[2.15px] flex h-[17px] w-[17px] flex-shrink-0 cursor-pointer items-center justify-center rounded-md border-[1.5px] border-zinc-600 hover:border-zinc-400 ${task.isDone ? 'bg-zinc-700 text-zinc-950' : ''}`}>
                                     {
@@ -84,7 +74,7 @@ export default function DisplayCol({ data, updateTask }) {
                     }
                 </div>
                 {
-                    (!addElement && (totalTasks.length !== 0)) &&
+                    (!addElement && (data.tasks.length !== 0)) &&
                     <div className="mt-3 flex items-center justify-start">
                         <button onClick={() => setAddElement(true)} className="flex w-full items-center justify-center gap-1 rounded-lg border border-dashed border-zinc-700 px-3 py-1.5 text-sm text-zinc-500 transition-colors group hover:border-zinc-500 hover:text-zinc-200">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="flex h-[15px] w-[15px] flex-shrink-0 cursor-pointer items-center justify-center rounded-md group-hover:border-zinc-400">
@@ -96,7 +86,7 @@ export default function DisplayCol({ data, updateTask }) {
                     </div>
                 }
                 {
-                    (totalTasks.length === 0 && !addElement) &&
+                    (data.tasks.length === 0 && !addElement) &&
                     <div className="relative h-full">
                         <div className="absolute inset-0 px-3">
                             <div className="h-full pb-10 flex flex-col items-center justify-center gap-1 text-sm text-zinc-600">

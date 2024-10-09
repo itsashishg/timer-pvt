@@ -1,12 +1,25 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, forwardRef } from "react";
 import DisplayCol from "./elements/displayCol";
 import useWindowSize from './custom-hooks/window-size';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 const Planner = () => {
 
     const [currentDate, setCurrentDate] = useState(new Date());
     const screenSize = useWindowSize().type;
     const [taskDetails, setTaskDetails] = useState(new Map());
+    const CustomPicker = forwardRef(
+        ({ onClick }, ref) => (
+            <button onClick={onClick} ref={ref} className="h-[40px!important] planner-btn hover:bg-zinc-700 hover:text-zinc-200 focus-visible:shadow-[0_0_0_1px] focus-visible:shadow-zinc-900">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M8 2v4"></path><path d="M16 2v4"></path>
+                    <rect width="18" height="18" x="3" y="4" rx="2"></rect>
+                    <path d="M3 10h18"></path>
+                </svg>
+            </button>
+        ),
+    );
 
     useEffect(() => {
         setTaskDetails(readMapFromLocalStorage());
@@ -74,14 +87,8 @@ const Planner = () => {
                     </svg>
                     <span className="hidden items-center gap-1.5 sm:inline-flex">Routine</span>
                 </button>
+                <DatePicker selected={currentDate} onChange={(date) => setCurrentDate(date)} customInput={<CustomPicker />} />
                 <button onClick={() => setCurrentDate(new Date())} className="planner-btn justify-between hover:bg-zinc-700 hover:text-zinc-200 focus-visible:shadow-[0_0_0_1px] focus-visible:shadow-zinc-90">Today</button>
-                <button className="planner-btn hover:bg-zinc-700 hover:text-zinc-200 focus-visible:shadow-[0_0_0_1px] focus-visible:shadow-zinc-900">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M8 2v4"></path><path d="M16 2v4"></path>
-                        <rect width="18" height="18" x="3" y="4" rx="2"></rect>
-                        <path d="M3 10h18"></path>
-                    </svg>
-                </button>
                 <button onClick={() => handleChangeDate('<')} className="change-date-btn">
                     <span>&lt;</span>
                 </button>
