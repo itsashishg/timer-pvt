@@ -29,6 +29,7 @@ const Planner = () => {
         const routineData = JSON.parse(localStorage.getItem('routineTasks'));
         setTaskDetails(new Map(mapArray));
         setRoutineTasks(routineData ?? []);
+        document.title = 'Timely: Planner';
     }, []);
 
     const handleChangeDate = (type) => {
@@ -114,8 +115,8 @@ const Planner = () => {
 
     return <div className="h-full w-full flex flex-col p-2">
         <div className="flex justify-between items-center text-white my-2">
-            <div class="text-3xl font-extrabold text-gray-900 dark:text-white pl-1">
-                <span class="text-transparent bg-clip-text bg-gradient-to-r to-slate-500 from-zinc-600">Planner</span>
+            <div className="text-3xl font-extrabold text-gray-900 dark:text-white pl-1">
+                <span className="text-transparent bg-clip-text bg-gradient-to-r to-slate-500 from-zinc-600">Planner</span>
             </div>
             <span className="flex justify-between gap-2">
                 <button onClick={() => setOpenRoutine(true)} className="planner-btn border border-zinc-800 hover:bg-zinc-800 hover:text-zinc-300">

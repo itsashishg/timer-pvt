@@ -21,23 +21,23 @@ export default function Navbar() {
             {/* Main nav */}
             <div className="hidden md:block main-nav absolute z-20">
                 <div className="flex items-center justify-around gap-2 h-9">
-                    <NavLink to="/" className={({ isActive }) => `text-center leading-5 text-base ${isActive ? 'text-gray-400 font-semibold' : 'text-gray-600 hover:text-gray-500'}`}>
+                    <NavLink to="/timely/"  className={({ isActive }) => `text-center leading-5 text-base ${isActive ? 'text-gray-400 font-semibold' : 'text-gray-600 hover:text-gray-500'}`}>
                         Clock
                     </NavLink>
 
-                    <NavLink to="/pomodoro" className={({ isActive }) => `text-center leading-5 text-base ${isActive ? 'text-gray-400 font-semibold' : 'text-gray-600 hover:text-gray-500'}`}>
+                    <NavLink to="/timely/pomodoro" className={({ isActive }) => `text-center leading-5 text-base ${isActive ? 'text-gray-400 font-semibold' : 'text-gray-600 hover:text-gray-500'}`}>
                         Pomodoro
                     </NavLink>
 
-                    <NavLink to="/timer" className={({ isActive }) => `text-center leading-5 text-base ${isActive ? 'text-gray-400 font-semibold' : 'text-gray-600 hover:text-gray-500'}`}>
+                    <NavLink to="/timely/timer" className={({ isActive }) => `text-center leading-5 text-base ${isActive ? 'text-gray-400 font-semibold' : 'text-gray-600 hover:text-gray-500'}`}>
                         Timer
                     </NavLink>
 
-                    <NavLink to="/stopwatch" className={({ isActive }) => `text-center leading-5 text-base ${isActive ? 'text-gray-400 font-semibold' : 'text-gray-600 hover:text-gray-500'}`}>
+                    <NavLink to="/timely/stopwatch" className={({ isActive }) => `text-center leading-5 text-base ${isActive ? 'text-gray-400 font-semibold' : 'text-gray-600 hover:text-gray-500'}`}>
                         Stopwatch
                     </NavLink>
 
-                    <NavLink to="/planner" className={({ isActive }) => `text-center leading-5 text-base ${isActive ? 'text-gray-400 font-semibold' : 'text-gray-600 hover:text-gray-500'}`}>
+                    <NavLink to="/timely/planner" className={({ isActive }) => `text-center leading-5 text-base ${isActive ? 'text-gray-400 font-semibold' : 'text-gray-600 hover:text-gray-500'}`}>
                         Planner
                     </NavLink>
                 </div>

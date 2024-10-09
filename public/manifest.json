@@ -8,29 +8,43 @@
   "background_color": "#ffffff",
   "icons": [
     {
-      "src": "/assets/android-chrome-512x512.png",
+      "src": "/timely/assets/android-chrome-512x512.png",
       "sizes": "512x512",
       "type": "image/png"
     },
     {
-      "src": "/assets/android-chrome-192x192.png",
+      "src": "/timely/assets/android-chrome-192x192.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "/assets/apple-touch-icon.png",
+      "src": "/timely/assets/apple-touch-icon.png",
       "sizes": "152x152",
       "type": "image/png"
     },
     {
-      "src": "/assets/favicon-16x16.png",
+      "src": "/timely/assets/favicon-16x16.png",
       "sizes": "16x16",
       "type": "image/png"
     },
     {
-      "src": "/assets/favicon-32x32.png",
+      "src": "/timely/assets/favicon-32x32.png",
       "sizes": "32x32",
       "type": "image/png"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/timely/assets/mobile-timely.png",
+      "type": "image/png",
+      "sizes": "776x1666",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "/timely/assets/web-timely.png",
+      "type": "image/png",
+      "sizes": "2314x1824",
+      "form_factor": "wide"
     }
   ]
 }

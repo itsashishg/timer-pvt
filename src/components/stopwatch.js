@@ -93,13 +93,13 @@ const Stopwatch = () => {
                 {(isActive || isPaused) && <ResetBtn emitStop={handleReset} />}
             </div>
             {laps.length > 0 && (
-                <div class="overflow-auto max-h-36 relative w-2/5 mx-auto rounded-xl flex flex-col">
+                <div className="overflow-auto max-h-36 relative w-2/5 mx-auto rounded-xl flex flex-col">
                     {laps.map((lap, index) => (
-                        <div class={`flex items-center justify-between px-3 py-2 ${index % 2 === 0 ? 'bg-neutral-700' : 'bg-neutral-800'}`}>
+                        <div className={`flex items-center justify-between px-3 py-2 ${index % 2 === 0 ? 'bg-neutral-700' : 'bg-neutral-800'}`}>
                             <span className="text-white font-semibold">Lap {laps.length - index}</span>
-                            <div class="flex flex-col">
-                                <strong class="text-slate-900 font-medium dark:text-slate-200 mb-1">{renderFormattedTime(lap.lapTime, 'text-sm', 'text-xs')}</strong>
-                                <span class="text-slate-500 font-medium dark:text-slate-400">{renderFormattedTime(lap.elapsedTime, 'text-sm', 'text-xs')}</span>
+                            <div className="flex flex-col">
+                                <strong className="text-slate-900 font-medium dark:text-slate-200 mb-1">{renderFormattedTime(lap.lapTime, 'text-sm', 'text-xs')}</strong>
+                                <span className="text-slate-500 font-medium dark:text-slate-400">{renderFormattedTime(lap.elapsedTime, 'text-sm', 'text-xs')}</span>
                             </div>
                         </div>
                     ))}

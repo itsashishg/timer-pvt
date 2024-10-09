@@ -13,11 +13,12 @@ function App() {
       <Router>
         <Navbar />
         <Routes>
-          <Route path="/" element={<Time />} />
-          <Route path="/pomodoro" element={<Pomodoro />} />
-          <Route path="/timer" element={<Timer />} />
-          <Route path="/stopwatch" element={<Stopwatch />} />
-          <Route path="/planner" element={<Planner />} />
+          <Route path="/timely/" element={<Time />} />
+          <Route path="/timely/pomodoro" element={<Pomodoro />} />
+          <Route path="/timely/timer" element={<Timer />} />
+          <Route path="/timely/stopwatch" element={<Stopwatch />} />
+          <Route path="/timely/planner" element={<Planner />} />
+          <Route path="*" element={<Time />} />
         </Routes>
       </Router>
     </>

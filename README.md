@@ -5,11 +5,13 @@ Aivanyi
 ## Goals
 
 - ~~Show Time~~
-- Timer/Stopwatch
+- ~~Timer/Stopwatch~~
 - ~~Pomodoro setting~~
 - Separate Timer window
-- ToDo App
-- Routines functionality for tasks
+- ~~ToDo App~~
+- ~~Routines functionality for tasks~~
+- Optimizations
+- History cleanup
 
 ## Schema for data
 
