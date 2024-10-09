@@ -15,7 +15,7 @@ export default function DisplayCol({ data, updateTask }) {
         if (event.key === 'Enter' && newTask.trim()) {
             event.preventDefault();
             const updatedList = data.tasks;
-            updatedList.push({ id: data.tasks.length + 1, desc: newTask, isDone: false });
+            updatedList.push({ id: data.tasks.length + 1, desc: newTask, isDone: false, isRoutine: false });
             updateTask(data.date, updatedList);
             setNewTask('');
             setAddElement(false);
@@ -55,7 +55,20 @@ export default function DisplayCol({ data, updateTask }) {
                                     }
                                 </button>
                                 <div className="flex flex-grow flex-col gap-2">
-                                    <h4 className={`items-start gap-1.5 text-sm group-hover:text-zinc-300 ${task.isDone ? 'text-zinc-700 line-through' : 'text-zinc-400'}`}>{task.desc}</h4>
+                                    <h4 className={`items-start gap-1.5 text-sm group-hover:text-zinc-300 ${task.isDone ? 'text-zinc-700 line-through' : 'text-zinc-400'}`}>
+                                        {
+                                            task.isRoutine &&
+                                            <span className="mr-1.5 inline-block rounded-md bg-zinc-800 px-1 py-0.5 text-xs uppercase tracking-wide text-zinc-500">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="relative -top-[1px] mr-1 inline-block h-[17px] w-[17px] flex-shrink-0 cursor-pointer items-center justify-center rounded-md text-zinc-600">
+                                                    <path d="m2 9 3-3 3 3"></path>
+                                                    <path d="M13 18H7a2 2 0 0 1-2-2V6"></path>
+                                                    <path d="m22 15-3 3-3-3"></path>
+                                                    <path d="M11 6h6a2 2 0 0 1 2 2v10"></path>
+                                                </svg>
+                                                Routine</span>
+                                        }
+
+                                        {task.desc}</h4>
                                 </div>
                                 <div className="absolute right-1 top-1/2 z-[20] hidden -translate-y-1/2 items-center justify-center gap-2 rounded-lg bg-zinc-800 px-2 py-2 group-hover:flex">
                                     <button className="flex items-center gap-1 text-sm text-zinc-500 hover:text-zinc-300">
