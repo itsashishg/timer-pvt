@@ -74,37 +74,45 @@ const Stopwatch = () => {
     };
 
     return (
-        <div className="flex flex-col items-center justify-center h-screen">
-            <h1 className="mb-3 flex flex-row gap-2 text-8xl font-medium tabular-nums text-white">{renderFormattedTime(time, 'text-8xl', 'text-lg')}</h1>
-            <div className="mb-4 mt-2 flex items-center gap-3">
-                {!isActive && <StartBtn emitStart={handleStart} />}
-                {
-                    (isActive) && <>
-                        <PauseBtn emitPause={handlePause} />
-                        <button onClick={handleLap} className="action-btn">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-[14px] w-[14px] md:h-[18px] md:w-[18px]">
-                                <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path>
-                                <line x1="4" x2="4" y1="22" y2="15"></line>
-                            </svg>
-                            <span className="hidden sm:block">Lap</span>
-                        </button>
-                    </>
-                }
-                {(isActive || isPaused) && <ResetBtn emitStop={handleReset} />}
+        <div className="h-full w-full flex flex-col p-2">
+            <div className="flex justify-between items-center text-white my-2">
+                <div></div>
+                <span className="flex justify-between gap-2">
+                    <div className="h-10"></div>
+                </span>
             </div>
-            {laps.length > 0 && (
-                <div className="overflow-auto max-h-36 relative w-2/5 mx-auto rounded-xl flex flex-col">
-                    {laps.map((lap, index) => (
-                        <div className={`flex items-center justify-between px-3 py-2 ${index % 2 === 0 ? 'bg-neutral-700' : 'bg-neutral-800'}`}>
-                            <span className="text-white font-semibold">Lap {laps.length - index}</span>
-                            <div className="flex flex-col">
-                                <strong className="text-slate-900 font-medium dark:text-slate-200 mb-1">{renderFormattedTime(lap.lapTime, 'text-sm', 'text-xs')}</strong>
-                                <span className="text-slate-500 font-medium dark:text-slate-400">{renderFormattedTime(lap.elapsedTime, 'text-sm', 'text-xs')}</span>
-                            </div>
-                        </div>
-                    ))}
+            <div className="flex flex-col items-center justify-center h-screen">
+                <h1 className="mb-3 flex flex-row gap-2 text-8xl font-medium tabular-nums text-white">{renderFormattedTime(time, 'text-8xl', 'text-lg')}</h1>
+                <div className="mb-4 mt-2 flex items-center gap-3">
+                    {!isActive && <StartBtn emitStart={handleStart} />}
+                    {
+                        (isActive) && <>
+                            <PauseBtn emitPause={handlePause} />
+                            <button onClick={handleLap} className="action-btn">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-[14px] w-[14px] md:h-[18px] md:w-[18px]">
+                                    <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path>
+                                    <line x1="4" x2="4" y1="22" y2="15"></line>
+                                </svg>
+                                <span className="hidden sm:block">Lap</span>
+                            </button>
+                        </>
+                    }
+                    {(isActive || isPaused) && <ResetBtn emitStop={handleReset} />}
                 </div>
-            )}
+                {laps.length > 0 && (
+                    <div className="overflow-auto max-h-36 relative w-2/5 mx-auto rounded-xl flex flex-col">
+                        {laps.map((lap, index) => (
+                            <div className={`flex items-center justify-between px-3 py-2 ${index % 2 === 0 ? 'bg-neutral-700' : 'bg-neutral-800'}`}>
+                                <span className="text-white font-semibold">Lap {laps.length - index}</span>
+                                <div className="flex flex-col">
+                                    <strong className="text-slate-900 font-medium dark:text-slate-200 mb-1">{renderFormattedTime(lap.lapTime, 'text-sm', 'text-xs')}</strong>
+                                    <span className="text-slate-500 font-medium dark:text-slate-400">{renderFormattedTime(lap.elapsedTime, 'text-sm', 'text-xs')}</span>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                )}
+            </div>
         </div>
     );
 };

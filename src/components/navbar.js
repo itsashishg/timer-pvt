@@ -19,8 +19,8 @@ export default function Navbar() {
                 </button>
             </div>
             {/* Main nav */}
-            <div className="hidden md:block main-nav absolute z-20">
-                <div className="flex items-center justify-around gap-2 h-9">
+            <div className="hidden md:block main-nav absolute z-20 h-10">
+                <div className="flex items-center justify-around gap-2 h-full">
                     <NavLink to="/timely/"  className={({ isActive }) => `text-center leading-5 text-base ${isActive ? 'text-gray-400 font-semibold' : 'text-gray-600 hover:text-gray-500'}`}>
                         Clock
                     </NavLink>
@@ -49,19 +49,19 @@ export default function Navbar() {
                     <button onClick={toggleMenu} className="absolute top-4 right-4 text-white text-2xl">
                         &times;
                     </button>
-                    <NavLink to="/" exact className="text-white text-2xl py-4" onClick={() => setIsOpen(false)}>
+                    <NavLink to="/timely/" exact className="text-white text-2xl py-4" onClick={() => setIsOpen(false)}>
                         Home
                     </NavLink>
-                    <NavLink to="/pomodoro" className="text-white text-2xl py-4" onClick={() => setIsOpen(false)}>
+                    <NavLink to="/timely/pomodoro" className="text-white text-2xl py-4" onClick={() => setIsOpen(false)}>
                         Pomodoro
                     </NavLink>
-                    <NavLink to="/timer" className="text-white text-2xl py-4" onClick={() => setIsOpen(false)}>
+                    <NavLink to="/timely/timer" className="text-white text-2xl py-4" onClick={() => setIsOpen(false)}>
                         Timer
                     </NavLink>
-                    <NavLink to="/stopwatch" className="text-white text-2xl py-4" onClick={() => setIsOpen(false)}>
+                    <NavLink to="/timely/stopwatch" className="text-white text-2xl py-4" onClick={() => setIsOpen(false)}>
                         Stopwatch
                     </NavLink>
-                    <NavLink to="/planner" className="text-white text-2xl py-4" onClick={() => setIsOpen(false)}>
+                    <NavLink to="/timely/planner" className="text-white text-2xl py-4" onClick={() => setIsOpen(false)}>
                         Planner
                     </NavLink>
                 </div>

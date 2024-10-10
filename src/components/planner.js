@@ -4,6 +4,7 @@ import useWindowSize from './custom-hooks/window-size';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import Routine from "./elements/routine";
+import { SettingBtn } from "./elements/buttons";
 
 const Planner = () => {
 
@@ -115,8 +116,16 @@ const Planner = () => {
 
     return <div className="h-full w-full flex flex-col p-2">
         <div className="flex justify-between items-center text-white my-2">
-            <div className="text-3xl font-extrabold text-gray-900 dark:text-white pl-1">
-                <span className="text-transparent bg-clip-text bg-gradient-to-r to-slate-500 from-zinc-600">Planner</span>
+            <div className="flex justify-between gap-2">
+                <button onClick={() => handleChangeDate('<')} className="change-date-btn flex">
+                    <span>&lt;</span>
+                </button>
+                <button onClick={() => handleChangeDate('>')} className="change-date-btn flex">
+                    <span>&gt;</span>
+                </button>
+                <Routine isOpen={openRoutine} onClose={() => setOpenRoutine(false)} updateHandler={updateRoutine} />
+                <button onClick={() => setCurrentDate(new Date())} className="planner-btn justify-between hover:bg-zinc-700 hover:text-zinc-200 focus-visible:shadow-[0_0_0_1px] focus-visible:shadow-zinc-90">Today</button>
+                <DatePicker selected={currentDate} onChange={(date) => setCurrentDate(date)} customInput={<CustomPicker />} />
             </div>
             <span className="flex justify-between gap-2">
                 <button onClick={() => setOpenRoutine(true)} className="planner-btn border border-zinc-800 hover:bg-zinc-800 hover:text-zinc-300">
@@ -128,15 +137,7 @@ const Planner = () => {
                     </svg>
                     <span className="hidden items-center gap-1.5 sm:inline-flex">Routine</span>
                 </button>
-                <Routine isOpen={openRoutine} onClose={() => setOpenRoutine(false)} updateHandler={updateRoutine} />
-                <DatePicker selected={currentDate} onChange={(date) => setCurrentDate(date)} customInput={<CustomPicker />} />
-                <button onClick={() => setCurrentDate(new Date())} className="planner-btn justify-between hover:bg-zinc-700 hover:text-zinc-200 focus-visible:shadow-[0_0_0_1px] focus-visible:shadow-zinc-90">Today</button>
-                <button onClick={() => handleChangeDate('<')} className="change-date-btn">
-                    <span>&lt;</span>
-                </button>
-                <button onClick={() => handleChangeDate('>')} className="change-date-btn">
-                    <span>&gt;</span>
-                </button>
+                <SettingBtn />
             </span>
         </div>
         <div className="flex-grow overflow-y-auto">{generateView(currentDate)}</div>

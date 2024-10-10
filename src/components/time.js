@@ -29,16 +29,24 @@ const Time = () => {
 
 
     return (
-        <div className="h-full w-full flex items-center justify-center flex-col">
-            <p className="mb-1 flex items-center justify-center text-base text-gray-400 lg:mb-2 lg:text-xl">Timezone: {userTimeZone}</p>
-            <p className="text-8xl font-semibold tabular-nums text-white ml-[40px]">
-                {hours}
-                <span className="inline-block animate-blink align-text-top">:</span>
-                {minutes}
-                <span className='ml-2 font-sans text-2xl font-medium text-neutral-600'>{amPm}</span>
-            </p>
-            <p className="mt-1 text-base text-gray-400 lg:mt-2 lg:text-xl">{formatDate(currentTime)}</p>
-            <div className="mb-[5.5rem]"></div>
+        <div className="h-full w-full flex flex-col p-2">
+            <div className="flex justify-between items-center text-white my-2">
+                <div></div>
+                <span className="flex justify-between gap-2">
+                    <div className="h-10"></div>
+                </span>
+            </div>
+            <div className="flex-grow flex items-center justify-center flex-col">
+                <p className="mb-1 flex items-center justify-center text-base text-gray-400 lg:mb-2 lg:text-xl">Timezone: {userTimeZone}</p>
+                <p className="text-8xl font-semibold tabular-nums text-white ml-[40px]">
+                    {hours}
+                    <span className="inline-block animate-blink align-text-top">:</span>
+                    {minutes}
+                    <span className='ml-2 font-sans text-2xl font-medium text-neutral-600'>{amPm}</span>
+                </p>
+                <p className="mt-1 text-base text-gray-400 lg:mt-2 lg:text-xl">{formatDate(currentTime)}</p>
+                <div className="mb-[5.5rem]"></div>
+            </div>
         </div>
     );
 };
