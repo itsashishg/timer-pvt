@@ -5,6 +5,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import Routine from "./elements/routine";
 import { SettingBtn } from "./elements/buttons";
+import PlannerSettings from "./settings/planner-settings";
 
 const Planner = () => {
 
@@ -13,6 +14,7 @@ const Planner = () => {
     const [taskDetails, setTaskDetails] = useState(new Map());
     const [routineTasks, setRoutineTasks] = useState([]);
     const [openRoutine, setOpenRoutine] = useState(false);
+    const [openSetting, setOpenSetting] = useState(false);
     const CustomPicker = forwardRef(
         ({ onClick }, ref) => (
             <button onClick={onClick} ref={ref} className="h-[40px!important] planner-btn hover:bg-zinc-700 hover:text-zinc-200 focus-visible:shadow-[0_0_0_1px] focus-visible:shadow-zinc-900">
@@ -46,7 +48,7 @@ const Planner = () => {
         storeInLocalStorage(Array.from(updatedMap.entries()), 'userTasks');
     }
 
-    const updateRoutine = (newRoutine) => {
+    const addNewRoutine = (newRoutine) => {
         const newList = routineTasks;
         newList.push({ ...newRoutine, id: uuid(routineTasks.map((task) => task.id)) });
         setRoutineTasks(newList);
@@ -57,11 +59,16 @@ const Planner = () => {
         localStorage.setItem(key, JSON.stringify(data));
     };
 
+    const clearTasks = () => {
+        setTaskDetails(new Map());
+        localStorage.removeItem('userTasks');
+    }
+
     const taskManager = (date) => {
         const currentTaskList = taskDetails.get(date.toDateString()) ?? [];
 
         routineTasks.forEach((routine) => {
-            if (currentTaskList.find(task => task.routineTaskId === routine.id) === undefined) {
+            if (currentTaskList.find(task => task.routineTaskId === routine.id) === undefined && !(date <= new Date().setHours(0, 0, 0, 0))) {
                 if (routine.type === 'DAILY') {
                     currentTaskList.push({ id: currentTaskList.length + 1, desc: routine.taskName, isDone: false, isRoutine: true, routineTaskId: routine.id });
                 }
@@ -123,7 +130,6 @@ const Planner = () => {
                 <button onClick={() => handleChangeDate('>')} className="change-date-btn flex">
                     <span>&gt;</span>
                 </button>
-                <Routine isOpen={openRoutine} onClose={() => setOpenRoutine(false)} updateHandler={updateRoutine} />
                 <button onClick={() => setCurrentDate(new Date())} className="planner-btn justify-between hover:bg-zinc-700 hover:text-zinc-200 focus-visible:shadow-[0_0_0_1px] focus-visible:shadow-zinc-90">Today</button>
                 <DatePicker selected={currentDate} onChange={(date) => setCurrentDate(date)} customInput={<CustomPicker />} />
             </div>
@@ -137,10 +143,12 @@ const Planner = () => {
                     </svg>
                     <span className="hidden items-center gap-1.5 sm:inline-flex">Routine</span>
                 </button>
-                <SettingBtn />
+                <SettingBtn emitClick={() => setOpenSetting(true)} />
             </span>
         </div>
         <div className="flex-grow overflow-y-auto">{generateView(currentDate)}</div>
+        <Routine isOpen={openRoutine} onClose={() => setOpenRoutine(false)} newRoutineHandler={addNewRoutine} currentValue={routineTasks} />
+        <PlannerSettings isOpen={openSetting} onClose={() => setOpenSetting(false)} updateHandler={clearTasks} />
     </div>;
 }
 

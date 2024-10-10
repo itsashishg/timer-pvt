@@ -137,7 +137,7 @@ export default function DisplayCol({ data, updateTask }) {
                 </div>
                 {/* Add new task */}
                 {
-                    (!addElement && (data.tasks.length !== 0)) &&
+                    (!addElement && (data.tasks.filter(e => e.isDone === false).length !== 0)) &&
                     <div className="mt-3 flex items-center justify-start">
                         <button onClick={showAddInput} className="flex w-full items-center justify-center gap-1 rounded-lg border border-dashed border-zinc-700 px-3 py-1.5 text-sm text-zinc-500 transition-colors group hover:border-zinc-500 hover:text-zinc-200">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="flex h-[15px] w-[15px] flex-shrink-0 cursor-pointer items-center justify-center rounded-md group-hover:border-zinc-400">
@@ -150,7 +150,7 @@ export default function DisplayCol({ data, updateTask }) {
                 }
                 {/* No task found */}
                 {
-                    (data.tasks.length === 0 && !addElement) &&
+                    (data.tasks.filter(e => e.isDone === false).length === 0 && !addElement) &&
                     <div className="relative h-full">
                         <div className="absolute inset-0 px-3">
                             <div className="h-full pb-10 flex flex-col items-center justify-center gap-1 text-sm text-zinc-600">

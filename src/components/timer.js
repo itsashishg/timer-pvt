@@ -27,8 +27,13 @@ const Timer = () => {
     }, [isActive, isPaused, totalSeconds, audio]);
 
     useEffect(() => {
-        document.title = 'Timely: Timer';
-    }, []);
+        if (isActive) {
+            let currentTime = formatTime(totalSeconds);
+            document.title = `${currentTime.hours !== '00' ? currentTime.hours + ':' : ''}${currentTime.minutes}:${currentTime.seconds} : left!`;
+        } else {
+            document.title = 'Timely: Timer';
+        }
+    }, [isActive, totalSeconds]);
 
     const handleInputChange = () => {
         const hours = parseInt(document.getElementById('hours').value) || 0;
