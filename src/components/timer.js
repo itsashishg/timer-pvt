@@ -6,18 +6,24 @@ const Timer = () => {
     const [isPaused, setIsPaused] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
     const [totalSeconds, setTotalSeconds] = useState(0);
+    const [audio] = useState(new Audio('/timely/tin-tin-tin.mp3'));
 
     useEffect(() => {
         let interval = null;
-        if (isActive && totalSeconds > 0) {
+        if (isActive && !isPaused && totalSeconds > 0) {
             interval = setInterval(() => {
-                setTotalSeconds((prev) => prev - 1);
+                setTotalSeconds((prevTime) => prevTime - 1);
             }, 1000);
-        } else if (!isActive && totalSeconds === 0) {
+        } else if (isActive && totalSeconds === 0) {
+            clearInterval(interval);
+            audio.play();
+            alert('Time is up!');
+            setIsActive(false);
+        } else if (!isActive) {
             clearInterval(interval);
         }
         return () => clearInterval(interval);
-    }, [isActive, totalSeconds]);
+    }, [isActive, isPaused, totalSeconds, audio]);
 
     useEffect(() => {
         document.title = 'Timely: Timer';
@@ -69,7 +75,7 @@ const Timer = () => {
     return (
         <div className="flex flex-col items-center justify-center h-screen">
             {!isActive ? (
-                <div className="text-base text-gray-500">Set timer</div>
+                <div className="text-base text-gray-500">Click to set timer</div>
             ) : (
                 <div className="text-sm text-gray-500 sm:text-base">Time Left</div>
             )}

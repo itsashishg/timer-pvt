@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 
 export default function DisplayCol({ data, updateTask }) {
 
     const [addElement, setAddElement] = useState(false);
     const [newTask, setNewTask] = useState('');
     const [showCompleted, setShowCompleted] = useState(false);
+    const inputRef = useRef(null);
+    const [editIndex, setEditIndex] = useState(null);
 
     useEffect(() => {
         setNewTask('');
@@ -15,11 +17,34 @@ export default function DisplayCol({ data, updateTask }) {
         if (event.key === 'Enter' && newTask.trim()) {
             event.preventDefault();
             const updatedList = data.tasks;
-            updatedList.push({ id: data.tasks.length + 1, desc: newTask, isDone: false, isRoutine: false });
+            if (editIndex === null) {
+                updatedList.push({ id: data.tasks.length + 1, desc: newTask, isDone: false, isRoutine: false });
+            }
+            else {
+                updatedList[editIndex].desc = newTask;
+            }
             updateTask(data.date, updatedList);
             setNewTask('');
             setAddElement(false);
+            setEditIndex(null);
         }
+        else if (event.key === 'Escape') {
+            setNewTask('');
+            setAddElement(false);
+        }
+    }
+
+    const showAddInput = () => {
+        setAddElement(true);
+        setTimeout(() => inputRef.current.focus());
+    }
+
+    const editTask = (index) => {
+        setEditIndex(index);
+        console.log(data.tasks[index].desc)
+        setNewTask(data.tasks[index].desc);
+        setAddElement(true);
+        setTimeout(() => inputRef.current.focus());
     }
 
     const updateTaskStatus = (index) => {
@@ -36,16 +61,33 @@ export default function DisplayCol({ data, updateTask }) {
         return data.tasks.filter(task => task.isDone).length > 0;
     }
 
+    const handleDragStart = (index, e) => {
+        const draggedItem = data.tasks[index];
+        e.dataTransfer.setData('application/json', JSON.stringify(draggedItem));
+        e.dataTransfer.effectAllowed = 'move';
+    };
+
+    const handleDrop = (index, e) => {
+        const draggedItem = JSON.parse(e.dataTransfer.getData('application/json'));
+        const draggedItemIndex = data.tasks.findIndex(item => item.id === draggedItem.id);
+        const updatedList = [...data.tasks];
+        updatedList.splice(draggedItemIndex, 1);
+        updatedList.splice(index, 0, draggedItem);
+        updateTask(data.date, updatedList);
+    };
+
     return <>
         <div className={`h-full w-full flex flex-col rounded-xl border bg-zinc-900 p-4 ${new Date().toDateString() === data.date ? 'border-sky-700' : 'border-zinc-800'}`}>
             <h3 className="py-4 text-xs uppercase tracking-[0.15em]">
                 <span className={`${new Date().toDateString() === data.date ? 'text-sky-600 font-bold' : 'text-zinc-500'}`}>{data.date}</span>
             </h3>
             <div className="flex flex-col h-full overflow-y-auto">
+                {/* Main List */}
                 <div className="border-b-2 border-t-2 last:mb-0 border-b-transparent border-t-transparent overflow-y-auto select-none">
                     {
                         data.tasks.map((task, index) => {
-                            return (!task.isDone || showCompleted) && <div key={index} className="w-full relative flex cursor-pointer items-start gap-3 px-3 py-2.5 rounded-md active:bg-zinc-800 group hover:bg-zinc-800">
+                            return (!task.isDone || showCompleted) && <div draggable onDragStart={(e) => handleDragStart(index, e)} onDragOver={(e) => e.preventDefault()} onDrop={(e) => handleDrop(index, e)}
+                                key={index} className="w-full relative flex cursor-pointer items-start gap-3 px-3 py-2.5 rounded-md active:bg-zinc-800 group hover:bg-zinc-800">
                                 <button onClick={() => updateTaskStatus(index)} className={`z-[20] mt-[2.15px] flex h-[17px] w-[17px] flex-shrink-0 cursor-pointer items-center justify-center rounded-md border-[1.5px] border-zinc-600 hover:border-zinc-400 ${task.isDone ? 'bg-zinc-700 text-zinc-950' : ''}`}>
                                     {
                                         task.isDone &&
@@ -71,12 +113,14 @@ export default function DisplayCol({ data, updateTask }) {
                                         {task.desc}</h4>
                                 </div>
                                 <div className="absolute right-1 top-1/2 z-[20] hidden -translate-y-1/2 items-center justify-center gap-2 rounded-lg bg-zinc-800 px-2 py-2 group-hover:flex">
-                                    <button className="flex items-center gap-1 text-sm text-zinc-500 hover:text-zinc-300">
+                                    {/* edit button */}
+                                    <button onClick={() => editTask(index)} className="flex items-center gap-1 text-sm text-zinc-500 hover:text-zinc-300">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                             <path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
                                             <path d="M18.375 2.625a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4Z"></path>
                                         </svg>
                                     </button>
+                                    {/* delete button */}
                                     <button onClick={() => deleteTask(index)} className="flex items-center gap-1 text-sm text-zinc-500 hover:text-zinc-300">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                             <path d="M3 6h18"></path>
@@ -91,10 +135,11 @@ export default function DisplayCol({ data, updateTask }) {
                         })
                     }
                 </div>
+                {/* Add new task */}
                 {
                     (!addElement && (data.tasks.length !== 0)) &&
                     <div className="mt-3 flex items-center justify-start">
-                        <button onClick={() => setAddElement(true)} className="flex w-full items-center justify-center gap-1 rounded-lg border border-dashed border-zinc-700 px-3 py-1.5 text-sm text-zinc-500 transition-colors group hover:border-zinc-500 hover:text-zinc-200">
+                        <button onClick={showAddInput} className="flex w-full items-center justify-center gap-1 rounded-lg border border-dashed border-zinc-700 px-3 py-1.5 text-sm text-zinc-500 transition-colors group hover:border-zinc-500 hover:text-zinc-200">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="flex h-[15px] w-[15px] flex-shrink-0 cursor-pointer items-center justify-center rounded-md group-hover:border-zinc-400">
                                 <path d="M5 12h14"></path>
                                 <path d="M12 5v14"></path>
@@ -103,6 +148,7 @@ export default function DisplayCol({ data, updateTask }) {
                         </button>
                     </div>
                 }
+                {/* No task found */}
                 {
                     (data.tasks.length === 0 && !addElement) &&
                     <div className="relative h-full">
@@ -114,16 +160,17 @@ export default function DisplayCol({ data, updateTask }) {
                                 </svg>
                                 <p>No tasks for this day</p>
                                 <p>
-                                    <button onClick={() => setAddElement(true)} className="text-zinc-500 underline underline-offset-2 hover:text-zinc-300">Add new task</button>
+                                    <button onClick={showAddInput} className="text-zinc-500 underline underline-offset-2 hover:text-zinc-300">Add new task</button>
                                 </p>
                             </div>
                         </div>
                     </div>
                 }
+                {/* New task input */}
                 {
                     addElement &&
                     <form className="relative my-1 flex items-center justify-start">
-                        <input onChange={(e) => setNewTask(e.target.value)} onKeyDown={handleAddData} className="flex-grow rounded-lg border border-zinc-700 bg-transparent px-3 py-2.5 pb-12 text-sm text-zinc-200 placeholder:text-zinc-600 focus:outline-none" placeholder="Type and press enter to save or esc to cancel" />
+                        <input onChange={(e) => setNewTask(e.target.value)} onKeyDown={handleAddData} ref={inputRef} defaultValue={newTask} className="flex-grow rounded-lg border border-zinc-700 bg-transparent px-3 py-2.5 pb-12 text-sm text-zinc-200 placeholder:text-zinc-600 focus:outline-none" placeholder="Type and press enter to save or esc to cancel" />
                         <div className="absolute bottom-3 left-3.5 right-3.5 flex items-center justify-between">
                             <div className="flex items-center gap-3">
                                 <button type="submit" onChange={handleAddData} className="group flex items-center gap-1 rounded-md text-xs uppercase tracking-wide text-zinc-500 hover:text-zinc-300">

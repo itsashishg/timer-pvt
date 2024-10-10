@@ -6,7 +6,7 @@ const Pomodoro = () => {
     const [mode, setMode] = useState('focus');
     const [isActive, setIsActive] = useState(false);
     const [isPaused, setIsPaused] = useState(false);
-    const [audio] = useState(new Audio('/tin-tin-tin.mp3'));
+    const [audio] = useState(new Audio('/timely/tin-tin-tin.mp3'));
 
     useEffect(() => {
         let interval = null;
@@ -16,8 +16,8 @@ const Pomodoro = () => {
             }, 1000);
         } else if (isActive && time === 0) {
             clearInterval(interval);
-            alert('Time is up!');
             audio.play();
+            alert('Time is up!');
             setIsActive(false);
         } else if (!isActive) {
             clearInterval(interval);
