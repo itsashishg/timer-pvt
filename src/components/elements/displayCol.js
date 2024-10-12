@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 
 
-export default function DisplayCol({ data, updateTask, updateRoutine, deleteRoutine }) {
+export default function DisplayCol({ data, updateTask, confirmationHandler }) {
 
     const [addElement, setAddElement] = useState(false);
     const [newTask, setNewTask] = useState('');
@@ -23,8 +23,7 @@ export default function DisplayCol({ data, updateTask, updateRoutine, deleteRout
             }
             else {
                 if (updatedList[editIndex].isRoutine) {
-                    console.log(updatedList[editIndex])
-                    updateRoutine({ routineTaskId: updatedList[editIndex].routineTaskId, id: updatedList[editIndex].id, updatedName: newTask, index: editIndex });
+                    confirmationHandler({ show: true, details: { for: 'UPDATE', heading: 'Edit Confirmation', message: 'Please confirm your action', truthy: 'Update full series', falsy: 'Update current event' }, params: { routineTaskId: updatedList[editIndex].routineTaskId, id: updatedList[editIndex].id, updatedName: newTask } })
                 }
                 else {
                     updatedList[editIndex].desc = newTask;
@@ -60,7 +59,7 @@ export default function DisplayCol({ data, updateTask, updateRoutine, deleteRout
 
     const deleteTask = (index) => {
         if (data.tasks[index].isRoutine) {
-            deleteRoutine({ routineTaskId: data.tasks[index].routineTaskId, id: data.tasks[index].id, updatedName: newTask, index: editIndex })
+            confirmationHandler({ show: true, details: { for: 'DELETE', heading: 'Delete Confirmation', message: 'Please confirm your action', truthy: 'Delete full series', falsy: 'Delete current event' }, params: { routineTaskId: data.tasks[index].routineTaskId, id: data.tasks[index].id, updatedName: newTask, index: editIndex } })
         }
         else {
             const newList = data.tasks.filter((item, i) => i !== index);

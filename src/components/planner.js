@@ -53,16 +53,7 @@ const Planner = () => {
     const addNewRoutine = (newRoutine) => {
         const newList = routineTasks;
         newList.push({ ...newRoutine, id: uuid(routineTasks.map((task) => task.id)) });
-        setRoutineTasks(newList);
-        storeInLocalStorage(newList, 'routineTasks');
-    }
-
-    const updateRoutineHandler = (updatedData) => {
-        setShowConfirmation({ show: true, details: { message: 'Do you want to rename series?', heading: 'Delete Routine', for: 'UPDATE', truthy: 'Update series', falsy: 'Update event' }, params: { ...updatedData } });
-    }
-
-    const deleteRoutineHandler = (deleteIndex) => {
-        setShowConfirmation({ show: true, details: { message: 'Do you want to delete series?', heading: 'Delete Routine', for: 'DELETE', truthy: 'Delete series', falsy: 'Delete event' }, params: { ...deleteIndex } });
+        updateValAndSetRoutineTasks(newList);
     }
 
     const storeInLocalStorage = (data, key) => {
@@ -72,7 +63,6 @@ const Planner = () => {
     const clearTasks = () => {
         setTaskDetails(new Map());
         setRoutineTasks([]);
-        // localStorage.removeItem('userTasks');
         localStorage.clear();
     }
 
@@ -80,38 +70,31 @@ const Planner = () => {
         if (canContinue !== undefined) {
             if (canContinue) {
                 if (showConfirmation.details.for === 'DELETE') {
+                    console.log('Delete series', showConfirmation.params);
                     // Updates the routines list
                     const updatedItems = routineTasks.filter((item) => (item.id !== showConfirmation.params.routineTaskId));
-                    console.log(updatedItems)
-                    setRoutineTasks(updatedItems);
-                    storeInLocalStorage(updatedItems, 'routineTasks');
-                    // Updates the task list
-                    // const updatedTasks = taskDetails.get(currentDate.toDateString());
-                    // updateValues(currentDate, updatedTasks.filter((item) => item.id !== showConfirmation.params.id));
+                    updateValAndSetRoutineTasks(updatedItems);
                 }
                 if (showConfirmation.details.for === 'UPDATE') {
                     // Updates the routines list
+                    console.log('Update series', showConfirmation.params);
                     const updatedItems = routineTasks.map((item) => (item.id === showConfirmation.params.routineTaskId ? { ...item, taskName: showConfirmation.params.updatedName } : item));
-                    setRoutineTasks(updatedItems);
-                    storeInLocalStorage(updatedItems, 'routineTasks');
-                    // Updates the task list
-                    // const updatedTasks = taskDetails.get(currentDate.toDateString());
-                    // updatedTasks[showConfirmation.params.index].desc = showConfirmation.params.updatedName;
-                    // updateValues(currentDate, updatedTasks);
+                    updateValAndSetRoutineTasks(updatedItems);
                 }
             }
             else {
                 if (showConfirmation.details.for === 'DELETE') {
                     console.log('Delete event', showConfirmation.params);
-                    const updatedTasks = taskDetails.get(currentDate.toDateString());
-                    console.log(updatedTasks.filter((item) => item.id !== showConfirmation.params.id))
-                    updateValues(currentDate, updatedTasks.filter((item) => item.id !== showConfirmation.params.id));
+                    const updatedItems = routineTasks.map((item) => item.id === showConfirmation.params.routineTaskId ? { ...item, excludeDates: [...item.excludeDates, currentDate.toDateString()] } : item);
+                    updateValAndSetRoutineTasks(updatedItems);
                 }
                 if (showConfirmation.details.for === 'UPDATE') {
                     console.log('Update event', showConfirmation.params);
-                    const updatedTasks = taskDetails.get(currentDate.toDateString());
-                    updatedTasks[showConfirmation.params.index].desc = showConfirmation.params.updatedName;
-                    updateValues(currentDate, updatedTasks);
+                    // console.log(taskDetails)
+                    // const tasks = taskDetails.get(currentDate);
+                    // const currIndex = tasks.indexOf(e => e.id === showConfirmation.params.id);
+                    // tasks[currIndex].desc = showConfirmation.params.updatedName;
+                    // updateValues(currentDate, tasks);
 
                 }
             }
@@ -123,11 +106,15 @@ const Planner = () => {
         }
     }
 
+    const updateValAndSetRoutineTasks = (updatedItems) => {
+        setRoutineTasks(updatedItems);
+        storeInLocalStorage(updatedItems, 'routineTasks');
+    }
+
     const taskManager = (date) => {
         const currentTaskList = taskDetails.get(date.toDateString()) ?? [];
-
         routineTasks.forEach((routine) => {
-            if (currentTaskList.find(task => task.routineTaskId === routine.id) === undefined && !(date <= new Date().setHours(0, 0, 0, 0))) {
+            if (currentTaskList.find(task => task.routineTaskId === routine.id) === undefined && !(date <= new Date().setHours(0, 0, 0, 0)) && (!routine.excludeDates.includes(date.toDateString()))) {
                 if (routine.type === 'DAILY') {
                     currentTaskList.push({ id: currentTaskList.length + 1, desc: routine.taskName, isDone: false, isRoutine: true, routineTaskId: routine.id });
                 }
@@ -149,7 +136,6 @@ const Planner = () => {
                 }
             }
         });
-
 
         return currentTaskList;
     }
@@ -173,10 +159,10 @@ const Planner = () => {
             <div className="flex items-center flex-col justify-between h-full w-full gap-2 sm:flex-row">
                 {
                     viewArray.map((dayAndTask, index) => (
-                        <DisplayCol key={index} data={dayAndTask} updateTask={updateValues} updateRoutine={updateRoutineHandler} deleteRoutine={deleteRoutineHandler} />
+                        <DisplayCol key={index} data={dayAndTask} updateTask={updateValues} confirmationHandler={setShowConfirmation} />
                     ))
                 }
-            </div >
+            </div>
         </>;
     }
 
