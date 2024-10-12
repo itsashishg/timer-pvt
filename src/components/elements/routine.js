@@ -31,7 +31,7 @@ export default function Routine({ isOpen, onClose, updateHandler }) {
         setDatesList([...newList]);
     }
     const handleFormSubmit = () => {
-        updateHandler({ taskName: taskName, type: routineType, days: daysList, dates: datesList });
+        updateHandler({ taskName: taskName, type: routineType, days: daysList, dates: datesList, excludeDates: [] });
         onClose();
     }
     const getActiveClass = (type, val) => {

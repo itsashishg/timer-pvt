@@ -6,6 +6,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import Routine from "./elements/routine";
 import { SettingBtn } from "./elements/buttons";
 import PlannerSettings from "./settings/planner-settings";
+import ConfirmationDialog from "./elements/confirmation-dialog";
 
 const Planner = () => {
 
@@ -15,6 +16,7 @@ const Planner = () => {
     const [routineTasks, setRoutineTasks] = useState([]);
     const [openRoutine, setOpenRoutine] = useState(false);
     const [openSetting, setOpenSetting] = useState(false);
+    const [showConfirmation, setShowConfirmation] = useState({ show: false, details: { message: '', heading: '', for: '', truthy: '', falsy: '' }, params: { updatedName: '', id: '', routineTaskId: '', index: 0 } });
     const CustomPicker = forwardRef(
         ({ onClick }, ref) => (
             <button onClick={onClick} ref={ref} className="h-[40px!important] planner-btn hover:bg-zinc-700 hover:text-zinc-200 focus-visible:shadow-[0_0_0_1px] focus-visible:shadow-zinc-900">
@@ -51,8 +53,7 @@ const Planner = () => {
     const addNewRoutine = (newRoutine) => {
         const newList = routineTasks;
         newList.push({ ...newRoutine, id: uuid(routineTasks.map((task) => task.id)) });
-        setRoutineTasks(newList);
-        storeInLocalStorage(newList, 'routineTasks');
+        updateValAndSetRoutineTasks(newList);
     }
 
     const storeInLocalStorage = (data, key) => {
@@ -61,14 +62,54 @@ const Planner = () => {
 
     const clearTasks = () => {
         setTaskDetails(new Map());
-        localStorage.removeItem('userTasks');
+        setRoutineTasks([]);
+        localStorage.clear();
+    }
+
+    const handleConfirmation = (canContinue) => {
+        if (canContinue !== undefined) {
+            if (canContinue) {
+                if (showConfirmation.details.for === 'DELETE') {
+                    console.log('Delete series', showConfirmation.params);
+                    // Updates the routines list
+                    const updatedItems = routineTasks.filter((item) => (item.id !== showConfirmation.params.routineTaskId));
+                    updateValAndSetRoutineTasks(updatedItems);
+                }
+                if (showConfirmation.details.for === 'UPDATE') {
+                    // Updates the routines list
+                    console.log('Update series', showConfirmation.params);
+                    const updatedItems = routineTasks.map((item) => (item.id === showConfirmation.params.routineTaskId ? { ...item, taskName: showConfirmation.params.updatedName } : item));
+                    updateValAndSetRoutineTasks(updatedItems);
+                }
+            }
+            else {
+                if (showConfirmation.details.for === 'DELETE') {
+                    console.log('Delete event', showConfirmation.params);
+                    const updatedItems = routineTasks.map((item) => item.id === showConfirmation.params.routineTaskId ? { ...item, excludeDates: [...item.excludeDates, currentDate.toDateString()] } : item);
+                    updateValAndSetRoutineTasks(updatedItems);
+                }
+                if (showConfirmation.details.for === 'UPDATE') {
+                    console.log('Update event', showConfirmation.params);
+                    alert('Action not supported!');
+                }
+            }
+            setShowConfirmation({ ...showConfirmation, show: false })
+        }
+        else {
+            setRoutineTasks([...routineTasks]);
+            setShowConfirmation({ ...showConfirmation, show: false })
+        }
+    }
+
+    const updateValAndSetRoutineTasks = (updatedItems) => {
+        setRoutineTasks(updatedItems);
+        storeInLocalStorage(updatedItems, 'routineTasks');
     }
 
     const taskManager = (date) => {
         const currentTaskList = taskDetails.get(date.toDateString()) ?? [];
-
         routineTasks.forEach((routine) => {
-            if (currentTaskList.find(task => task.routineTaskId === routine.id) === undefined && !(date <= new Date().setHours(0, 0, 0, 0))) {
+            if (currentTaskList.find(task => task.routineTaskId === routine.id) === undefined && !(date <= new Date().setHours(0, 0, 0, 0)) && (!routine.excludeDates.includes(date.toDateString()))) {
                 if (routine.type === 'DAILY') {
                     currentTaskList.push({ id: currentTaskList.length + 1, desc: routine.taskName, isDone: false, isRoutine: true, routineTaskId: routine.id });
                 }
@@ -90,7 +131,6 @@ const Planner = () => {
                 }
             }
         });
-
 
         return currentTaskList;
     }
@@ -114,10 +154,10 @@ const Planner = () => {
             <div className="flex items-center flex-col justify-between h-full w-full gap-2 sm:flex-row">
                 {
                     viewArray.map((dayAndTask, index) => (
-                        <DisplayCol key={index} data={dayAndTask} updateTask={updateValues} />
+                        <DisplayCol key={index} data={dayAndTask} updateTask={updateValues} confirmationHandler={setShowConfirmation} />
                     ))
                 }
-            </div >
+            </div>
         </>;
     }
 
@@ -147,8 +187,9 @@ const Planner = () => {
             </span>
         </div>
         <div className="flex-grow overflow-y-auto">{generateView(currentDate)}</div>
-        <Routine isOpen={openRoutine} onClose={() => setOpenRoutine(false)} newRoutineHandler={addNewRoutine} currentValue={routineTasks} />
+        <Routine isOpen={openRoutine} onClose={() => setOpenRoutine(false)} updateHandler={addNewRoutine} />
         <PlannerSettings isOpen={openSetting} onClose={() => setOpenSetting(false)} updateHandler={clearTasks} />
+        {showConfirmation.show && <ConfirmationDialog isOpen={showConfirmation.show} onClose={handleConfirmation} showDetails={showConfirmation.details} />}
     </div>;
 }
 

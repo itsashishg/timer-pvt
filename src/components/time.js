@@ -1,18 +1,25 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 
 const Time = () => {
     const [currentTime, setCurrentTime] = useState(new Date());
     const userLocale = navigator.language || 'en-IN';
     const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     const [show12hr, setShow12hr] = useState(() => localStorage.getItem('show12hr') ?? true);
+    const [searchParams] = useSearchParams();
+    const navigate = useNavigate();
 
     useEffect(() => {
+        const currentParams = searchParams.get('redirectTo');
+        if (currentParams) {
+            navigate(currentParams);
+        }
         const timerId = setInterval(() => {
             setCurrentTime(new Date());
         }, 1000);
         document.title = 'Timely';
         return () => clearInterval(timerId);
-    }, []);
+    }, [navigate, searchParams]);
 
     const formatTime = (date) => {
         const options = { hour: '2-digit', minute: '2-digit', hour12: show12hr };
@@ -39,9 +46,9 @@ const Time = () => {
                 <div></div>
                 <span className="flex justify-between gap-2">
                     <div className="h-10"></div>
-                    <button onClick={updateFormat} class="h-9 w-12 rounded font-sans text-sm font-medium text-neutral-400 transition-colors duration-300 sm:inline-block bg-zinc-800 hover:bg-zinc-700">
-                        <span class="tabular-nums">{show12hr ? 12 : 24}</span>
-                        <span class="ml-[2px] font-medium">hr</span>
+                    <button onClick={updateFormat} className="h-9 w-12 rounded font-sans text-sm font-medium text-neutral-400 transition-colors duration-300 sm:inline-block bg-zinc-800 hover:bg-zinc-700">
+                        <span className="tabular-nums">{show12hr ? 12 : 24}</span>
+                        <span className="ml-[2px] font-medium">hr</span>
                     </button>
                 </span>
             </div>
