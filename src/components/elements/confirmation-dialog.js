@@ -10,7 +10,7 @@ const ConfirmationDialog = ({ isOpen, onClose, showDetails }) => {
 
     return (
         <div className="dialog-overlay" onClick={handleOverlayClick}>
-            <div className="dialog border-zinc-800 bg-zinc-900 p-4 text-sm text-zinc-400 flex flex-col rounded-lg border" onClick={handleDialogClick}>
+            <div className="dialog border-zinc-800 bg-zinc-900 p-4 text-sm text-zinc-400 flex flex-col rounded-lg border" style={{ width: '400px' }} onClick={handleDialogClick}>
                 <p className="text-center mb-2 font-bold">{showDetails.heading}</p>
                 <div className="mx-auto w-full">
                     <div className="text-center">{showDetails.message}</div>

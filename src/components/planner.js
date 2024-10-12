@@ -90,12 +90,7 @@ const Planner = () => {
                 }
                 if (showConfirmation.details.for === 'UPDATE') {
                     console.log('Update event', showConfirmation.params);
-                    // console.log(taskDetails)
-                    // const tasks = taskDetails.get(currentDate);
-                    // const currIndex = tasks.indexOf(e => e.id === showConfirmation.params.id);
-                    // tasks[currIndex].desc = showConfirmation.params.updatedName;
-                    // updateValues(currentDate, tasks);
-
+                    alert('Action not supported!');
                 }
             }
             setShowConfirmation({ ...showConfirmation, show: false })
