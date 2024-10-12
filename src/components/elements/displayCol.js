@@ -77,7 +77,7 @@ export default function DisplayCol({ data, updateTask }) {
     };
 
     return <>
-        <div className={`h-full w-full flex flex-col rounded-xl border bg-zinc-900 p-4 ${new Date().toDateString() === data.date ? 'border-sky-700' : 'border-zinc-800'}`}>
+        <div className={`h-[calc(100%-50px)] sm:h-full w-full flex flex-col rounded-xl border bg-zinc-900 p-4 ${new Date().toDateString() === data.date ? 'border-sky-700' : 'border-zinc-800'}`}>
             <h3 className="py-4 text-xs uppercase tracking-[0.15em]">
                 <span className={`${new Date().toDateString() === data.date ? 'text-sky-600 font-bold' : 'text-zinc-500'}`}>{data.date}</span>
             </h3>

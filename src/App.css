@@ -20,15 +20,32 @@ body {
     box-shadow: none;
     opacity: 1;
     padding: 0.5rem;
-    width: 400px;
     position: fixed;
-    /* bottom: 2.5rem; */
-    /* left: 50%; */
-    top: 17px;
-    left: 50%;
-    transform: translateX(-50%);
     background-color: rgba(0, 0, 0, 0.16);
-    border-radius: 15px;
+}
+
+@layer components {
+    .large-device {
+        position: absolute;
+        top: 17px;
+        left: 50%;
+        width: 400px;
+        transform: translateX(-50%);
+        z-index: 20;
+        height: 40px;
+        border-radius: 15px;
+    }
+
+    .small-device {
+        position: absolute;
+        bottom: 5px;
+        left: 50%;
+        width: 98%;
+        transform: translateX(-50%);
+        z-index: 20;
+        height: 50px;
+        border-radius: 0.75rem;
+    }
 }
 
 input {

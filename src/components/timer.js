@@ -82,7 +82,7 @@ const Timer = () => {
         <div className="h-full w-full flex flex-col p-2">
             <div className="flex justify-between items-center text-white my-2">
                 <div></div>
-                <span className="flex justify-between gap-2 mr-10 sm:mr-0">
+                <span className="flex justify-between gap-2">
                     <div className="h-10"></div>
                     {/* <SettingBtn emitClick={() => setOpenSetting(true)} /> */}
                     {/* <PomodoroSettings isOpen={openSetting} onClose={() => setOpenSetting(false)} /> */}
@@ -94,7 +94,7 @@ const Timer = () => {
                 ) : (
                     <div className="text-sm text-gray-500 sm:text-base">Time Left</div>
                 )}
-                <div className="flex space-x-2 mb-4 text-8xl text-white">
+                <div className="flex space-x-2 mb-4 text-6xl sm:text-8xl text-white">
                     <div className="flex flex-col items-center sm:max-w-[130px]">
                         <div className="relative">
                             <input type="text" value={displayedTime.hours} onChange={handleInputChange}
