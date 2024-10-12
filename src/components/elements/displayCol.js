@@ -1,6 +1,7 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
-export default function DisplayCol({ data, updateTask }) {
+
+export default function DisplayCol({ data, updateTask, updateRoutine, deleteRoutine }) {
 
     const [addElement, setAddElement] = useState(false);
     const [newTask, setNewTask] = useState('');
@@ -21,9 +22,15 @@ export default function DisplayCol({ data, updateTask }) {
                 updatedList.push({ id: data.tasks.length + 1, desc: newTask, isDone: false, isRoutine: false });
             }
             else {
-                updatedList[editIndex].desc = newTask;
+                if (updatedList[editIndex].isRoutine) {
+                    console.log(updatedList[editIndex])
+                    updateRoutine({ routineTaskId: updatedList[editIndex].routineTaskId, id: updatedList[editIndex].id, updatedName: newTask, index: editIndex });
+                }
+                else {
+                    updatedList[editIndex].desc = newTask;
+                    updateTask(data.date, updatedList);
+                }
             }
-            updateTask(data.date, updatedList);
             setNewTask('');
             setAddElement(false);
             setEditIndex(null);
@@ -52,8 +59,13 @@ export default function DisplayCol({ data, updateTask }) {
     }
 
     const deleteTask = (index) => {
-        const newList = data.tasks.filter((item, i) => i !== index);
-        updateTask(data.date, newList);
+        if (data.tasks[index].isRoutine) {
+            deleteRoutine({ routineTaskId: data.tasks[index].routineTaskId, id: data.tasks[index].id, updatedName: newTask, index: editIndex })
+        }
+        else {
+            const newList = data.tasks.filter((item, i) => i !== index);
+            updateTask(data.date, newList);
+        }
     }
 
     const hasCompletedTasks = () => {
