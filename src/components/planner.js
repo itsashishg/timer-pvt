@@ -133,7 +133,7 @@ const Planner = () => {
                 <button onClick={() => setCurrentDate(new Date())} className="planner-btn justify-between hover:bg-zinc-700 hover:text-zinc-200 focus-visible:shadow-[0_0_0_1px] focus-visible:shadow-zinc-90">Today</button>
                 <DatePicker selected={currentDate} onChange={(date) => setCurrentDate(date)} customInput={<CustomPicker />} />
             </div>
-            <span className="flex justify-between gap-2">
+            <span className="flex justify-between gap-2 mr-10 sm:mr-0">
                 <button onClick={() => setOpenRoutine(true)} className="planner-btn border border-zinc-800 hover:bg-zinc-800 hover:text-zinc-300">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                         <path d="m17 2 4 4-4 4"></path>

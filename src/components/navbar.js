@@ -21,7 +21,7 @@ export default function Navbar() {
             {/* Main nav */}
             <div className="hidden md:block main-nav absolute z-20 h-10">
                 <div className="flex items-center justify-around gap-2 h-full">
-                    <NavLink to="/timely/"  className={({ isActive }) => `text-center leading-5 text-base ${isActive ? 'text-gray-400 font-semibold' : 'text-gray-600 hover:text-gray-500'}`}>
+                    <NavLink to="/timely/" className={({ isActive }) => `text-center leading-5 text-base ${isActive ? 'text-gray-400 font-semibold' : 'text-gray-600 hover:text-gray-500'}`}>
                         Clock
                     </NavLink>
 
@@ -49,7 +49,7 @@ export default function Navbar() {
                     <button onClick={toggleMenu} className="absolute top-4 right-4 text-white text-2xl">
                         &times;
                     </button>
-                    <NavLink to="/timely/" exact className="text-white text-2xl py-4" onClick={() => setIsOpen(false)}>
+                    <NavLink to="/timely/" className="text-white text-2xl py-4" onClick={() => setIsOpen(false)}>
                         Home
                     </NavLink>
                     <NavLink to="/timely/pomodoro" className="text-white text-2xl py-4" onClick={() => setIsOpen(false)}>

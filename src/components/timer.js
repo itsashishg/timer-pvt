@@ -82,7 +82,7 @@ const Timer = () => {
         <div className="h-full w-full flex flex-col p-2">
             <div className="flex justify-between items-center text-white my-2">
                 <div></div>
-                <span className="flex justify-between gap-2">
+                <span className="flex justify-between gap-2 mr-10 sm:mr-0">
                     <div className="h-10"></div>
                     {/* <SettingBtn emitClick={() => setOpenSetting(true)} /> */}
                     {/* <PomodoroSettings isOpen={openSetting} onClose={() => setOpenSetting(false)} /> */}
