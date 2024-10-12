@@ -15,8 +15,8 @@ const Stopwatch = () => {
         let interval = null;
         if (isActive) {
             interval = setInterval(() => {
-                setTime((prevTime) => prevTime + 10);
-            }, 10);
+                setTime((prevTime) => prevTime + 1);
+            }, 1);
         } else if (!isActive && time !== 0) {
             clearInterval(interval);
         }

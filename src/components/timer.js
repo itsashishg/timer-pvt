@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { PauseBtn, ResetBtn, StartBtn, AddTimeBtn, SettingBtn } from './elements/buttons';
+import { PauseBtn, ResetBtn, StartBtn, AddTimeBtn } from './elements/buttons';
 
 const Timer = () => {
     const [isActive, setIsActive] = useState(false);
@@ -7,7 +7,6 @@ const Timer = () => {
     const [isEditing, setIsEditing] = useState(false);
     const [totalSeconds, setTotalSeconds] = useState(0);
     const [audio] = useState(new Audio('/timely/tin-tin-tin.mp3'));
-    const [openSetting, setOpenSetting] = useState(false);
 
     useEffect(() => {
         let interval = null;
@@ -84,8 +83,6 @@ const Timer = () => {
                 <div></div>
                 <span className="flex justify-between gap-2">
                     <div className="h-10"></div>
-                    {/* <SettingBtn emitClick={() => setOpenSetting(true)} /> */}
-                    {/* <PomodoroSettings isOpen={openSetting} onClose={() => setOpenSetting(false)} /> */}
                 </span>
             </div>
             <div className="flex-grow flex flex-col items-center justify-center sm:w-2/5 m-auto">

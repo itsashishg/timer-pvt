@@ -41,7 +41,6 @@ export default function DisplayCol({ data, updateTask }) {
 
     const editTask = (index) => {
         setEditIndex(index);
-        console.log(data.tasks[index].desc)
         setNewTask(data.tasks[index].desc);
         setAddElement(true);
         setTimeout(() => inputRef.current.focus());
@@ -83,7 +82,7 @@ export default function DisplayCol({ data, updateTask }) {
             </h3>
             <div className="flex flex-col h-full overflow-y-auto">
                 {/* Main List */}
-                <div className="border-b-2 border-t-2 last:mb-0 border-b-transparent border-t-transparent overflow-y-auto select-none">
+                <div style={showCompleted ? { height: 'fit-content', overflow: 'visible' } : {}} className="border-b-2 border-t-2 last:mb-0 border-b-transparent border-t-transparent overflow-y-auto select-none">
                     {
                         data.tasks.map((task, index) => {
                             return (!task.isDone || showCompleted) && <div draggable onDragStart={(e) => handleDragStart(index, e)} onDragOver={(e) => e.preventDefault()} onDrop={(e) => handleDrop(index, e)}
