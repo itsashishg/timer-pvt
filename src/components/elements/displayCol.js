@@ -27,9 +27,9 @@ export default function DisplayCol({ data, updateTask, confirmationHandler }) {
                 }
                 else {
                     updatedList[editIndex].desc = newTask;
-                    updateTask(data.date, updatedList);
                 }
             }
+            updateTask(data.date, updatedList);
             setNewTask('');
             setAddElement(false);
             setEditIndex(null);
